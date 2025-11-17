@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class TreeMiniGame : MonoBehaviour
 {
-    private float waterTimer;
+    public float waterTimer;
     public float waterNeedTime;
     public bool waterNeed;
-    private float manureTimer;
-    private float manureNeedTime;
+    public float manureTimer;
+    public float manureNeedTime;
     public bool manureNeed;
-    private float insectSpawnTimer;
-    private float insectSpawnTime;
+    public float insectSpawnTimer;
+    public float insectSpawnTime;
     public bool insectSpawn;
     public bool trashSpawn;
     private void Start()
