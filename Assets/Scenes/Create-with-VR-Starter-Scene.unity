@@ -2271,13 +2271,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreeMiniGame
   waterTimer: 0
-  waterNeedTime: 0
+  waterNeedTime: 10
   waterNeed: 0
   manureTimer: 0
-  manureNeedTime: 0
+  manureNeedTime: 10
   manureNeed: 0
   insectSpawnTimer: 0
-  insectSpawnTime: 0
+  insectSpawnTime: 10
   insectSpawn: 0
   trashSpawn: 0
 --- !u!65 &942917894

@@ -28,13 +28,23 @@ public class TreeMiniGame : MonoBehaviour
                 waterTimer += waterNeedTime;
             }
         }
-        if(manureNeed == true)
+        else
+        {
+            waterTimer = waterNeedTime;
+            return;
+        }
+        if (manureNeed == true)
         {
             manureTimer -= Time.deltaTime;
-            if(manureTimer <= 0)
+            if (manureTimer <= 0)
             {
                 manureTimer += manureNeedTime;
             }
+        }
+        else
+        {
+            manureTimer = manureNeedTime;
+            return;
         }
         if(insectSpawn == true)
         {
@@ -43,6 +53,11 @@ public class TreeMiniGame : MonoBehaviour
             {
                 insectSpawnTimer += insectSpawnTime;
             }
+        }
+        else
+        {
+            insectSpawnTimer = insectSpawnTime;
+            return;
         }
         if(trashSpawn == true)
         {
