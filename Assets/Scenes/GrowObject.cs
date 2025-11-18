@@ -1,37 +1,33 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.UI;
 
-public class VRGrowObject : MonoBehaviour
+public class ScoreManager : MonoBehaviour
 {
-    [Header("Scale Settings")]
-    public Vector3 scaleIncrease = new Vector3(0.1f, 0.1f, 0.1f);
+    public Text scoreText; // Sleep hier je Text UI element in
+    private int score = 0;
 
-    [Header("Optional XR Interactable")]
-    public UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable interactable; // Sleep hier een interactable in als je wilt
-
-    private void OnEnable()
+    void Start()
     {
-        if (interactable != null)
-        {
-            interactable.selectEntered.AddListener(OnSelectEntered);
-        }
+        UpdateScoreText();
     }
 
-    private void OnDisable()
+    // Functie om +1 punt toe te voegen
+    public void AddPoint()
     {
-        if (interactable != null)
-        {
-            interactable.selectEntered.RemoveListener(OnSelectEntered);
-        }
+        score += 1;
+        UpdateScoreText();
     }
 
-    private void OnSelectEntered(SelectEnterEventArgs args)
+    // Functie om -1 punt toe te geven
+    public void SubtractPoint()
     {
-        Grow();
+        score -= 1;
+        UpdateScoreText();
     }
 
-    public void Grow()
+    // Update het Text UI element
+    void UpdateScoreText()
     {
-        transform.localScale += scaleIncrease;
+        scoreText.text = "Score: " + score.ToString();
     }
 }
