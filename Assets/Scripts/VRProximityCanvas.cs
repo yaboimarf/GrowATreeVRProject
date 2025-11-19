@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
@@ -6,16 +6,27 @@ using System.Collections;
 public class VRPointsPlantWithBonusButton : MonoBehaviour
 {
     [Header("UI Elements")]
-    public TextMeshProUGUI pointsText;     // TextMeshPro tekst voor totaal punten
-    public Button bonusButton;             // Speciale bonus button
-    public Button fertilizerButton;        // Nieuwe bemestingsknop
+    public TextMeshProUGUI pointsText;
+    public Button bonusButton;
+    public Button fertilizerButton;
+
+    [Header("Extra Point Buttons")]
+    public Button addPointButton;
+    public Button removePointButton;
 
     [Header("Plant Object")]
-    public Transform plantTransform;       // Plant die groeit
+    public Transform plantTransform;
+    public Renderer plantRenderer;
 
     [Header("Growth Settings")]
-    public float growthPerPoint = 0.05f;   // Groei per punt per seconde
-    public float maxScale = 3f;            // Maximum schaal van de plant
+    public float growthPerPoint = 0.05f;
+    public float maxScale = 3f;
+
+    [Header("Color Settings")]
+    public float colorChangeStep = 0.1f; // stap per seconde
+
+    [Header("Game Settings")]
+    public int startPoints = 0; // startpunten instelbaar in Inspector
 
     [Header("Bonus Button Settings")]
     public float bonusInterval = 10f;
@@ -26,8 +37,8 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     [Header("Fertilizer Button Settings")]
     public float fertilizerInterval = 15f;
     public float fertilizerDuration = 5f;
-    public int fertilizerPoints = 3;       // Punten voor bemesting
-    public int fertilizerPenalty = 3;      // Straf voor missen
+    public int fertilizerPoints = 3;
+    public int fertilizerPenalty = 3;
 
     private int totalPoints = 0;
 
@@ -36,7 +47,22 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
 
     private void Start()
     {
-        // BONUS BUTTON
+        // Startpunten instellen
+        totalPoints = startPoints;
+        UpdatePointsUI();
+
+        // Kleur direct instellen op basis van startPoints
+        if (plantRenderer != null)
+        {
+            if (totalPoints > 75)
+                plantRenderer.material.color = Color.green;
+            else if (totalPoints > 30)
+                plantRenderer.material.color = new Color(1f, 0.5f, 0f); // Oranje
+            else
+                plantRenderer.material.color = Color.black;
+        }
+
+        // Bonus- en fertilizer-buttons
         if (bonusButton != null)
         {
             bonusButton.interactable = false;
@@ -44,7 +70,6 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             bonusButton.onClick.AddListener(OnBonusButtonClicked);
         }
 
-        // FERTILIZER BUTTON
         if (fertilizerButton != null)
         {
             fertilizerButton.interactable = false;
@@ -52,15 +77,27 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             fertilizerButton.onClick.AddListener(OnFertilizerButtonClicked);
         }
 
-        UpdatePointsUI();
+        // Extra +1/-1 knoppen
+        if (addPointButton != null)
+            addPointButton.onClick.AddListener(() =>
+            {
+                totalPoints += 1;
+                UpdatePointsUI();
+            });
 
-        // Start coroutines
+        if (removePointButton != null)
+            removePointButton.onClick.AddListener(() =>
+            {
+                totalPoints = Mathf.Max(0, totalPoints - 1);
+                UpdatePointsUI();
+            });
+
         StartCoroutine(GrowPlantCoroutine());
         StartCoroutine(BonusButtonCoroutine());
         StartCoroutine(FertilizerButtonCoroutine());
+        StartCoroutine(PlantColorCoroutine());
     }
 
-    // GROEI COROUTINE
     private IEnumerator GrowPlantCoroutine()
     {
         while (true)
@@ -77,7 +114,32 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         }
     }
 
-    // BONUS BUTTON COROUTINE
+    private IEnumerator PlantColorCoroutine()
+    {
+        if (plantRenderer == null)
+            yield break;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+
+            Color targetColor;
+
+            if (totalPoints > 75)
+                targetColor = Color.green;
+            else if (totalPoints > 30)
+                targetColor = new Color(1f, 0.5f, 0f); // Oranje
+            else
+                targetColor = Color.black;
+
+            plantRenderer.material.color = Color.Lerp(
+                plantRenderer.material.color,
+                targetColor,
+                colorChangeStep
+            );
+        }
+    }
+
     private IEnumerator BonusButtonCoroutine()
     {
         while (true)
@@ -116,7 +178,6 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         }
     }
 
-    // BEMESTINGSBUTTON COROUTINE
     private IEnumerator FertilizerButtonCoroutine()
     {
         while (true)
@@ -155,7 +216,6 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         }
     }
 
-    // ONCLICK EVENTS
     private void OnBonusButtonClicked()
     {
         if (!bonusActive) return;
