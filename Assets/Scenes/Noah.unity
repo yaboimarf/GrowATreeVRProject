@@ -3026,12 +3026,12 @@ MonoBehaviour:
   startPoints: 50
   bonusInterval: 10
   bonusDuration: 5
-  bonusPoints: 5
+  bonusPoints: 1
   penaltyPoints: 5
-  fertilizerInterval: 15
+  fertilizerInterval: 25
   fertilizerDuration: 5
   fertilizerPoints: 3
-  fertilizerPenalty: 3
+  fertilizerPenalty: 10
 --- !u!65 &1573977692
 BoxCollider:
   m_ObjectHideFlags: 0
