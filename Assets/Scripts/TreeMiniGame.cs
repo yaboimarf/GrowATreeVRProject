@@ -3,21 +3,19 @@ using UnityEngine;
 
 public class TreeMiniGame : MonoBehaviour
 {
-    public float waterTimer;
+    private float waterTimer;
     public float waterNeedTime;
     public bool waterNeed;
-    public float manureTimer;
-    public float manureNeedTime;
-    public bool manureNeed;
-    public float insectSpawnTimer;
-    public float insectSpawnTime;
-    public bool insectSpawn;
-    public bool trashSpawn;
+    public GameObject waterIndicator;
+    private float waterCompletionTimer;
+    public float waterCompletionTime;
+    public bool waterMiniGameCompleted;
+
     private void Start()
     {
-        
+        waterTimer = waterNeedTime;
+        waterCompletionTimer = waterCompletionTime;
     }
-
     private void Update()
     {
         if(waterNeed == true)
@@ -25,7 +23,7 @@ public class TreeMiniGame : MonoBehaviour
             waterTimer -= Time.deltaTime;
             if(waterTimer <= 0)
             {
-                waterTimer += waterNeedTime;
+                WaterMiniGame();
             }
         }
         else
@@ -33,35 +31,29 @@ public class TreeMiniGame : MonoBehaviour
             waterTimer = waterNeedTime;
             return;
         }
-        if (manureNeed == true)
-        {
-            manureTimer -= Time.deltaTime;
-            if (manureTimer <= 0)
-            {
-                manureTimer += manureNeedTime;
-            }
-        }
-        else
-        {
-            manureTimer = manureNeedTime;
-            return;
-        }
-        if(insectSpawn == true)
-        {
-            insectSpawnTimer -= Time.deltaTime;
-            if(insectSpawnTimer <= 0)
-            {
-                insectSpawnTimer += insectSpawnTime;
-            }
-        }
-        else
-        {
-            insectSpawnTimer = insectSpawnTime;
-            return;
-        }
-        if(trashSpawn == true)
-        {
 
-        }
     }
+    private void WaterMiniGame()
+    {
+        waterIndicator.SetActive(true);        
+        waterCompletionTimer -= Time.deltaTime;
+        if(waterMiniGameCompleted == false)
+        {
+            if (waterCompletionTimer <= 0)
+            {
+                waterIndicator.SetActive(false);
+                waterTimer = waterNeedTime;
+                waterCompletionTimer = waterCompletionTime;
+                //subtract points
+            }
+        }
+        else
+        {
+            waterIndicator.SetActive(false);
+            waterTimer = waterNeedTime;
+            waterCompletionTimer = waterCompletionTime;
+            waterMiniGameCompleted = false;
+            //add points
+        }
+    }    
 }
