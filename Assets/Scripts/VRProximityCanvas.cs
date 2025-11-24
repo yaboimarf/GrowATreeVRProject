@@ -23,10 +23,10 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     public float maxScale = 3f;
 
     [Header("Color Settings")]
-    public float colorChangeStep = 0.1f;
+    public float colorChangeStep = 0.1f; // Stap per tick
 
     [Header("Game Settings")]
-    public int startPoints = 0;
+    public int startPoints = 1; // start altijd minimaal 1 punt
 
     [Header("Bonus Button Settings")]
     public float bonusInterval = 10f;
@@ -40,10 +40,11 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     public int fertilizerPoints = 3;
     public int fertilizerPenalty = 3;
 
-    private int totalPoints = 0;
-
+    private int totalPoints = 1;
     private bool bonusActive = false;
     private bool fertilizerActive = false;
+
+    private Material plantMaterial;
 
     private void Start()
     {
@@ -52,12 +53,8 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
 
         if (plantRenderer != null)
         {
-            if (totalPoints > 75)
-                plantRenderer.material.color = Color.green;
-            else if (totalPoints > 30)
-                plantRenderer.material.color = new Color(1f, 0.5f, 0f);
-            else
-                plantRenderer.material.color = Color.black;
+            plantMaterial = plantRenderer.material; // Unieke material instance
+            plantMaterial.color = GetTargetColor();
         }
 
         if (bonusButton != null)
@@ -75,18 +72,10 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         }
 
         if (addPointButton != null)
-            addPointButton.onClick.AddListener(() =>
-            {
-                totalPoints += 1;
-                UpdatePointsUI();
-            });
+            addPointButton.onClick.AddListener(() => { AddPoints(1); });
 
         if (removePointButton != null)
-            removePointButton.onClick.AddListener(() =>
-            {
-                totalPoints = Mathf.Max(0, totalPoints - 1);
-                UpdatePointsUI();
-            });
+            removePointButton.onClick.AddListener(() => { AddPoints(-1); });
 
         StartCoroutine(GrowPlantCoroutine());
         StartCoroutine(BonusButtonCoroutine());
@@ -112,28 +101,32 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
 
     private IEnumerator PlantColorCoroutine()
     {
-        if (plantRenderer == null)
+        if (plantMaterial == null)
             yield break;
 
         while (true)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f); // 1 tick per seconde
 
-            Color targetColor;
+            Color targetColor = GetTargetColor();
 
-            if (totalPoints > 75)
-                targetColor = Color.green;
-            else if (totalPoints > 30)
-                targetColor = new Color(1f, 0.5f, 0f);
-            else
-                targetColor = Color.black;
-
-            plantRenderer.material.color = Color.Lerp(
-                plantRenderer.material.color,
+            // Kleine stap richting target per tick
+            plantMaterial.color = Color.Lerp(
+                plantMaterial.color,
                 targetColor,
                 colorChangeStep
             );
         }
+    }
+
+    private Color GetTargetColor()
+    {
+        if (totalPoints > 75)
+            return Color.green;
+        else if (totalPoints > 30)
+            return new Color(1f, 0.5f, 0f); // Oranje
+        else
+            return Color.black;
     }
 
     private IEnumerator BonusButtonCoroutine()
@@ -165,11 +158,10 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             bonusButton.gameObject.SetActive(false);
 
             if (clicked)
-                totalPoints += bonusPoints;
+                AddPoints(bonusPoints);
             else
-                totalPoints = Mathf.Max(0, totalPoints - penaltyPoints);
+                AddPoints(-penaltyPoints);
 
-            UpdatePointsUI();
             bonusActive = false;
         }
     }
@@ -203,11 +195,10 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             fertilizerButton.gameObject.SetActive(false);
 
             if (clicked)
-                totalPoints += fertilizerPoints;
+                AddPoints(fertilizerPoints);
             else
-                totalPoints = Mathf.Max(0, totalPoints - fertilizerPenalty);
+                AddPoints(-fertilizerPenalty);
 
-            UpdatePointsUI();
             fertilizerActive = false;
         }
     }
@@ -230,12 +221,9 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             pointsText.text = "Points: " + totalPoints;
     }
 
-    // ------------------------------
-    // ⭐ NODIGE FUNCTIE VOOR TRASH
-    // ------------------------------
     public void AddPoints(int amount)
     {
-        totalPoints += amount;
+        totalPoints = Mathf.Max(1, totalPoints + amount); // minimaal 1 punt
         UpdatePointsUI();
     }
 }
