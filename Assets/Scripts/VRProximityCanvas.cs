@@ -23,10 +23,10 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     public float maxScale = 3f;
 
     [Header("Color Settings")]
-    public float colorChangeStep = 0.1f; // stap per seconde
+    public float colorChangeStep = 0.1f;
 
     [Header("Game Settings")]
-    public int startPoints = 0; // startpunten instelbaar in Inspector
+    public int startPoints = 0;
 
     [Header("Bonus Button Settings")]
     public float bonusInterval = 10f;
@@ -47,22 +47,19 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
 
     private void Start()
     {
-        // Startpunten instellen
         totalPoints = startPoints;
         UpdatePointsUI();
 
-        // Kleur direct instellen op basis van startPoints
         if (plantRenderer != null)
         {
             if (totalPoints > 75)
                 plantRenderer.material.color = Color.green;
             else if (totalPoints > 30)
-                plantRenderer.material.color = new Color(1f, 0.5f, 0f); // Oranje
+                plantRenderer.material.color = new Color(1f, 0.5f, 0f);
             else
                 plantRenderer.material.color = Color.black;
         }
 
-        // Bonus- en fertilizer-buttons
         if (bonusButton != null)
         {
             bonusButton.interactable = false;
@@ -77,7 +74,6 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             fertilizerButton.onClick.AddListener(OnFertilizerButtonClicked);
         }
 
-        // Extra +1/-1 knoppen
         if (addPointButton != null)
             addPointButton.onClick.AddListener(() =>
             {
@@ -128,7 +124,7 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             if (totalPoints > 75)
                 targetColor = Color.green;
             else if (totalPoints > 30)
-                targetColor = new Color(1f, 0.5f, 0f); // Oranje
+                targetColor = new Color(1f, 0.5f, 0f);
             else
                 targetColor = Color.black;
 
@@ -232,5 +228,14 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     {
         if (pointsText != null)
             pointsText.text = "Points: " + totalPoints;
+    }
+
+    // ------------------------------
+    // ⭐ NODIGE FUNCTIE VOOR TRASH
+    // ------------------------------
+    public void AddPoints(int amount)
+    {
+        totalPoints += amount;
+        UpdatePointsUI();
     }
 }
