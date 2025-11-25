@@ -14,19 +14,32 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     public Button addPointButton;
     public Button removePointButton;
 
-    [Header("Plant Object")]
+    [Header("Plant Object (Parent met 4 vormen erin)")]
     public Transform plantTransform;
     public Renderer plantRenderer;
+
+    [Header("Tree Evolution (4 vormen als children)")]
+    public GameObject treeStage1;  // sprout
+    public GameObject treeStage2;  // small
+    public GameObject treeStage3;  // medium
+    public GameObject treeStage4;  // big
+
+    [Header("Evolution Scale Thresholds")]
+    public float evolveAtStage1 = 0.6f;
+    public float evolveAtStage2 = 1.2f;
+    public float evolveAtStage3 = 2f;
+
+    private int currentStage = 1;
 
     [Header("Growth Settings")]
     public float growthPerPoint = 0.05f;
     public float maxScale = 3f;
 
     [Header("Color Settings")]
-    public float colorChangeStep = 0.1f; // Stap per tick
+    public float colorChangeStep = 0.1f;
 
     [Header("Game Settings")]
-    public int startPoints = 1; // start altijd minimaal 1 punt
+    public int startPoints = 1;
 
     [Header("Bonus Button Settings")]
     public float bonusInterval = 10f;
@@ -53,7 +66,7 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
 
         if (plantRenderer != null)
         {
-            plantMaterial = plantRenderer.material; // Unieke material instance
+            plantMaterial = plantRenderer.material;
             plantMaterial.color = GetTargetColor();
         }
 
@@ -83,6 +96,51 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         StartCoroutine(PlantColorCoroutine());
     }
 
+    // ------------------------------
+    // TREE EVOLUTION VIA SETACTIVE
+    // ------------------------------
+    private void CheckEvolution()
+    {
+        float scaleX = plantTransform.localScale.x;
+
+        if (currentStage == 1 && scaleX >= evolveAtStage1)
+            SwitchToStage(2);
+
+        else if (currentStage == 2 && scaleX >= evolveAtStage2)
+            SwitchToStage(3);
+
+        else if (currentStage == 3 && scaleX >= evolveAtStage3)
+            SwitchToStage(4);
+    }
+
+    private void SwitchToStage(int newStage)
+    {
+        currentStage = newStage;
+
+        // Zet alle uit
+        treeStage1.SetActive(false);
+        treeStage2.SetActive(false);
+        treeStage3.SetActive(false);
+        treeStage4.SetActive(false);
+
+        // Zet juiste boomvorm aan
+        if (newStage == 1) treeStage1.SetActive(true);
+        if (newStage == 2) treeStage2.SetActive(true);
+        if (newStage == 3) treeStage3.SetActive(true);
+        if (newStage == 4) treeStage4.SetActive(true);
+
+        // Nieuwe renderer zoeken (belangrijk voor kleur)
+        Renderer newRend = plantTransform.GetComponentInChildren<Renderer>();
+        if (newRend != null)
+        {
+            plantRenderer = newRend;
+            plantMaterial = newRend.material;
+        }
+    }
+
+    // ------------------------------
+    // PLANT GROEI (origineel)
+    // ------------------------------
     private IEnumerator GrowPlantCoroutine()
     {
         while (true)
@@ -94,7 +152,10 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
                 float growthAmount = totalPoints * growthPerPoint;
                 Vector3 newScale = plantTransform.localScale + Vector3.one * growthAmount;
                 newScale = Vector3.Min(newScale, Vector3.one * maxScale);
+
                 plantTransform.localScale = newScale;
+
+                CheckEvolution(); // ← Boomvorm checken
             }
         }
     }
@@ -106,11 +167,9 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
 
         while (true)
         {
-            yield return new WaitForSeconds(1f); // 1 tick per seconde
-
+            yield return new WaitForSeconds(1f);
             Color targetColor = GetTargetColor();
 
-            // Kleine stap richting target per tick
             plantMaterial.color = Color.Lerp(
                 plantMaterial.color,
                 targetColor,
@@ -124,11 +183,14 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         if (totalPoints > 75)
             return Color.green;
         else if (totalPoints > 30)
-            return new Color(1f, 0.5f, 0f); // Oranje
+            return new Color(1f, 0.5f, 0f);
         else
             return Color.black;
     }
 
+    // ------------------------------
+    // DE REST VAN JOUW ORIGINELE CODE
+    // ------------------------------
     private IEnumerator BonusButtonCoroutine()
     {
         while (true)
@@ -223,7 +285,7 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
 
     public void AddPoints(int amount)
     {
-        totalPoints = Mathf.Max(1, totalPoints + amount); // minimaal 1 punt
+        totalPoints = Mathf.Max(1, totalPoints + amount);
         UpdatePointsUI();
     }
 }
