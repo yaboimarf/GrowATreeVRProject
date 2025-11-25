@@ -344,6 +344,7 @@ GameObject:
   - component: {fileID: 189511972}
   - component: {fileID: 189511971}
   - component: {fileID: 189511970}
+  - component: {fileID: 189511973}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -412,6 +413,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &189511973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189511969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab68ce6587aab0146b8dabefbd806791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.UI.XRUIInputModule
+  m_SendPointerHoverToParent: 1
+  m_ClickSpeed: 0.3
+  m_MoveDeadzone: 0.6
+  m_RepeatDelay: 0.5
+  m_RepeatRate: 0.1
+  m_TrackedDeviceDragThresholdMultiplier: 2
+  m_TrackedScrollDeltaMultiplier: 5
+  m_BypassUIToolkitEvents: 0
+  m_ActiveInputMode: 0
+  m_EnableXRInput: 1
+  m_EnableMouseInput: 1
+  m_EnableTouchInput: 1
+  m_EnableGamepadInput: 1
+  m_EnableJoystickInput: 1
+  m_PointAction: {fileID: 0}
+  m_LeftClickAction: {fileID: 0}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_NavigateAction: {fileID: 0}
+  m_SubmitAction: {fileID: 0}
+  m_CancelAction: {fileID: 0}
+  m_EnableBuiltinActionsAsFallback: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
 --- !u!1 &203844586
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,9 +928,14 @@ MonoBehaviour:
   pointsText: {fileID: 0}
   bonusButton: {fileID: 0}
   fertilizerButton: {fileID: 0}
+  addPointButton: {fileID: 0}
+  removePointButton: {fileID: 0}
   plantTransform: {fileID: 0}
+  plantRenderer: {fileID: 0}
   growthPerPoint: 0.05
   maxScale: 3
+  colorChangeStep: 0.1
+  startPoints: 0
   bonusInterval: 10
   bonusDuration: 5
   bonusPoints: 5
@@ -2072,7 +2117,19 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 942917892}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
       m_Calls: []
@@ -2211,11 +2268,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652e437b8e102d1409851dd329b5e979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreeMiniGame
-  waterNeedTime: 10
-  waterNeed: 0
+  waterNeedInterval: 5
+  wateringTime: 2
+  waterCompletionTime: 5
+  waterNeed: 1
+  waterMiniGameCompleted: 0
+  manureNeedInterval: 0
+  manureingTime: 0
+  manureCompletionTime: 0
+  manureNeed: 0
+  manureMiniGameCompleted: 0
   waterIndicator: {fileID: 2070730277}
-  waterCompletionTime: 2
-  waterMiniGameCompleted: 1
+  manureIndicator: {fileID: 0}
 --- !u!65 &942917894
 BoxCollider:
   m_ObjectHideFlags: 0
