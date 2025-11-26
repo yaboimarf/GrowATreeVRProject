@@ -7,6 +7,7 @@ public class TreeMiniGame : MonoBehaviour
     [Header("Water Timers")]
     public float waterNeedInterval;
     private float waterTimer;
+    private float wateringTimer;
     public float wateringTime;
     private float waterCompletionTimer;
     public float waterCompletionTime;
@@ -18,7 +19,8 @@ public class TreeMiniGame : MonoBehaviour
     [Header("Manure Timers")]
     public float manureNeedInterval;
     private float manureTimer;
-    public float manureingTime;
+    private float manuringTimer;
+    public float manuringTime;
     private float manureCompletionTimer;
     public float manureCompletionTime;
 
@@ -29,11 +31,13 @@ public class TreeMiniGame : MonoBehaviour
     [Header("GameObjects")]
     public GameObject waterIndicator;
     public GameObject manureIndicator;
+    public GameObject wateringPoint;
 
     private void Start()
     {
         waterTimer = waterNeedInterval;
         waterCompletionTimer = waterCompletionTime;
+        wateringTimer = wateringTime;
     }
     private void Update()
     {
@@ -44,6 +48,10 @@ public class TreeMiniGame : MonoBehaviour
             {
                 WaterMiniGame();
             }
+            else
+            {
+                wateringTimer = wateringTime;
+            }
         }
         else
         {
@@ -51,30 +59,33 @@ public class TreeMiniGame : MonoBehaviour
             return;
         }
 
-        if(manureNeed == true)
-        {
-            manureTimer -= Time.deltaTime;
-            if(manureTimer <= 0)
-            {
-                ManureMiniGame();
-            }
-        }
-        else
-        {
-            manureTimer = manureNeedInterval;
-            return;
-        }
+        //if(manureNeed == true)
+        //{
+        //    manureTimer -= Time.deltaTime;
+        //    if(manureTimer <= 0)
+        //    {
+        //        ManureMiniGame();
+        //    }
+        //}
+        //else
+        //{
+        //    manureTimer = manureNeedInterval;
+        //    return;
+        //}
     }
     private void WaterMiniGame()
     {
-        waterIndicator.SetActive(true);        
-        if(waterMiniGameCompleted == false)
+        waterIndicator.SetActive(true);
+        wateringPoint.SetActive(true);
+        if (waterMiniGameCompleted == false)
         {
             waterCompletionTimer -= Time.deltaTime;
             if (waterCompletionTimer <= 0)
             {
                 waterIndicator.SetActive(false);
+                wateringPoint.SetActive(false);
                 waterTimer = waterNeedInterval;
+                wateringTimer = wateringTime;
                 waterCompletionTimer = waterCompletionTime;
                 //subtract points
                 Debug.Log("-points");
@@ -83,7 +94,9 @@ public class TreeMiniGame : MonoBehaviour
         else
         {
             waterIndicator.SetActive(false);
+            wateringPoint.SetActive(false);
             waterTimer = waterNeedInterval;
+            wateringTimer = wateringTime;
             waterCompletionTimer = waterCompletionTime;
             waterMiniGameCompleted = false;
             //add points
@@ -92,43 +105,49 @@ public class TreeMiniGame : MonoBehaviour
     }
     public void IsBeingWatered()
     {
-        wateringTime -= Time.deltaTime;
-        if(wateringTime <= 0)
+        wateringTimer -= Time.deltaTime;
+        if(wateringTimer <= 0)
         {
             waterMiniGameCompleted = true;
         }
     }
-    private void ManureMiniGame()
-    {
-        manureIndicator.SetActive(true);
-        if(manureMiniGameCompleted == false)
-        {
-            manureCompletionTimer -= Time.deltaTime;
-            if(manureCompletionTimer <= 0)
-            {
-                manureIndicator.SetActive(false);
-                manureTimer = manureNeedInterval;
-                manureCompletionTimer = manureCompletionTime;
-                //subtract points
-                Debug.Log("-points");
-            }
-        }
-        else
-        {
-            manureIndicator.SetActive(false);
-            manureTimer = manureNeedInterval;
-            manureCompletionTimer = manureCompletionTime;
-            manureMiniGameCompleted = false;
-            //+points
-        }
-    }
-    public void IsBeingManured()
-    {
-        manureingTime -= Time.deltaTime;
-        if(manureingTime <= 0)
-        {
-            manureMiniGameCompleted = true;
-        }
-    }
-
+    //private void ManureMiniGame()
+    //{
+    //    manureIndicator.SetActive(true);
+    //    if(manureMiniGameCompleted == false)
+    //    {
+    //        manureCompletionTimer -= Time.deltaTime;
+    //        if(manureCompletionTimer <= 0)
+    //        {
+    //            manureIndicator.SetActive(false);
+    //            manureTimer = manureNeedInterval;
+    //            manureCompletionTimer = manureCompletionTime;
+    //            //subtract points
+    //            Debug.Log("-points");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        manureIndicator.SetActive(false);
+    //        manureTimer = manureNeedInterval;
+    //        manureCompletionTimer = manureCompletionTime;
+    //        manureMiniGameCompleted = false;
+    //        //+points
+    //    }
+    //}
+    //public void IsBeingManured()
+    //{
+    //    manureingTime -= Time.deltaTime;
+    //    if(manureingTime <= 0)
+    //    {
+    //        manureMiniGameCompleted = true;
+    //    }
+    //}
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    if(collision.gameObject.CompareTag("WateringCan"))
+    //    {
+    //        IsBeingWatered();
+    //    }
+    //}
 }
