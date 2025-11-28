@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 163837815}
   - component: {fileID: 163837817}
   - component: {fileID: 163837816}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,8 +375,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222731293}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.046000242}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0.23000121}
+  m_LocalScale: {x: 2.5000005, y: 2.5, z: 2.5000005}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1017080779}
@@ -388,7 +388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.7511595, y: 0.5}
+  m_AnchoredPosition: {x: 3.2866423, y: 0}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &222731295
@@ -448,11 +448,11 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -893399209
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!1001 &232119148
 PrefabInstance:
@@ -462,6 +462,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1610197145}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 06e65f50c5494bf4297b3d19f9826df3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 06e65f50c5494bf4297b3d19f9826df3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 06e65f50c5494bf4297b3d19f9826df3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 06e65f50c5494bf4297b3d19f9826df3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1252,7 +1264,7 @@ GameObject:
   - component: {fileID: 554910440}
   - component: {fileID: 554910442}
   - component: {fileID: 554910441}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2114,7 +2126,7 @@ MonoBehaviour:
   m_HoverTimeToSelect: 0.5
   m_AutoDeselect: 0
   m_TimeToAutoDeselect: 3
-  m_EnableUIInteraction: 0
+  m_EnableUIInteraction: 1
   m_BlockInteractionsWithScreenSpaceUI: 0
   m_BlockUIOnInteractableSelection: 1
   m_ManipulateAttachTransform: 1
@@ -2399,7 +2411,7 @@ GameObject:
   - component: {fileID: 808203780}
   - component: {fileID: 808203782}
   - component: {fileID: 808203781}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2784,15 +2796,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6cfeb5f237ac98f4da3a60b77666b18d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6cfeb5f237ac98f4da3a60b77666b18d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6cfeb5f237ac98f4da3a60b77666b18d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6cfeb5f237ac98f4da3a60b77666b18d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2869,7 +2881,7 @@ GameObject:
   - component: {fileID: 1017080782}
   - component: {fileID: 1017080781}
   - component: {fileID: 1017080780}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Watering
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3087,6 +3099,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 1610197145}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: de738837f4ebcdc4dab199810f400607, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: de738837f4ebcdc4dab199810f400607, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: de738837f4ebcdc4dab199810f400607, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: de738837f4ebcdc4dab199810f400607, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -3155,7 +3179,7 @@ GameObject:
   - component: {fileID: 1306446047}
   - component: {fileID: 1306446049}
   - component: {fileID: 1306446048}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3388,7 +3412,7 @@ GameObject:
   - component: {fileID: 1480141642}
   - component: {fileID: 1480141641}
   - component: {fileID: 1480141640}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Mesting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3591,8 +3615,8 @@ Transform:
   m_GameObject: {fileID: 1610197144}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.093831, y: -0.5, z: 3.982}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.093831, y: 0, z: 3.982}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 989305733}
@@ -3625,8 +3649,8 @@ MonoBehaviour:
   treeStage2: {fileID: 1839337620}
   treeStage3: {fileID: 321039039}
   treeStage4: {fileID: 1790250903}
-  evolveAtStage1: 0.5
-  evolveAtStage2: 1
+  evolveAtStage1: 0.75
+  evolveAtStage2: 1.5
   evolveAtStage3: 2.5
   growthPerPoint: 0.0001
   maxScale: 5
@@ -3655,7 +3679,7 @@ MonoBehaviour:
   trashPrefab: {fileID: 2384534790404977610, guid: 76c73bff5b7737642a66fedd7046d31d, type: 3}
   target: {fileID: 1610197145}
   spawnRadius: 2
-  spawnInterval: 0.1
+  spawnInterval: 10
 --- !u!1 &1618469126
 GameObject:
   m_ObjectHideFlags: 0
@@ -3771,7 +3795,7 @@ GameObject:
   - component: {fileID: 1666777543}
   - component: {fileID: 1666777545}
   - component: {fileID: 1666777544}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4374,7 +4398,7 @@ MonoBehaviour:
   m_HoverTimeToSelect: 0.5
   m_AutoDeselect: 0
   m_TimeToAutoDeselect: 3
-  m_EnableUIInteraction: 0
+  m_EnableUIInteraction: 1
   m_BlockInteractionsWithScreenSpaceUI: 0
   m_BlockUIOnInteractableSelection: 1
   m_ManipulateAttachTransform: 0
@@ -4554,7 +4578,7 @@ GameObject:
   - component: {fileID: 1818090788}
   - component: {fileID: 1818090787}
   - component: {fileID: 1818090786}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: +1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4858,6 +4882,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 1610197145}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f3d53ecad0d9b32409d153f93b27df5d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3d53ecad0d9b32409d153f93b27df5d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3d53ecad0d9b32409d153f93b27df5d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f3d53ecad0d9b32409d153f93b27df5d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4961,7 +4997,7 @@ GameObject:
   - component: {fileID: 2123570524}
   - component: {fileID: 2123570523}
   - component: {fileID: 2123570522}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: -1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
