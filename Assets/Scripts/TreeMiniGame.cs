@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TreeMiniGame : MonoBehaviour
 {
-    public SmallTest smallTest;
+    public SmallTest water;
 
     [Header("Water Timers")]
     public float waterNeedInterval;
@@ -97,7 +97,7 @@ public class TreeMiniGame : MonoBehaviour
                 wateringTimer = wateringTime;
                 waterCompletionTimer = waterCompletionTime;
                 isBeingWatered = false;
-                smallTest.waterIsActive = false;
+                water.ResetGravity();
                 //subtract points
                 Debug.Log("-points");
             }
@@ -111,7 +111,7 @@ public class TreeMiniGame : MonoBehaviour
             waterCompletionTimer = waterCompletionTime;
             waterMiniGameCompleted = false;
             isBeingWatered = false;
-            smallTest.waterIsActive = false;
+            water.ResetGravity();
             //add points
             Debug.Log("+points");
         }
@@ -175,10 +175,5 @@ public class TreeMiniGame : MonoBehaviour
     //    {
     //        IsBeingWatered();
     //    }
-    //}
-
-    public void SmallTestLocation()
-    {
-        smallTest = gameObject.GetComponent<SmallTest>();
-    }
+    //}    
 }

@@ -3,25 +3,12 @@ using UnityEngine;
 
 public class SmallTest : MonoBehaviour
 {
-    public SpawnPoint spawnPoint;
     public TreeMiniGame treeMiniGame;
-    public bool waterIsActive;
 
-    private void Start()
-    {
-        treeMiniGame = gameObject.GetComponent<TreeMiniGame>();
-        spawnPoint = gameObject.GetComponent<SpawnPoint>();
-        waterIsActive = true;
-        treeMiniGame.SmallTestLocation();
-        spawnPoint.SmallTestLocation();
-    }
     private void Update()
     {
-        if(waterIsActive == false)
-        {
-            spawnPoint.SpawnWater();
-            Destroy(this.gameObject);
-        }
+        //this.gameObject.GetComponent<Rigidbody>().useGravity = true;
+        //this.gameObject.GetComponent <Rigidbody>().isKinematic = false;
     }
     private void OnCollisionStay(Collision collision)
     {
@@ -31,9 +18,9 @@ public class SmallTest : MonoBehaviour
             Debug.Log("Collision detected");
         }
     }
-
-    public void WaterActive()
+    public void ResetGravity()
     {
-        waterIsActive = false;
+        this.gameObject.GetComponent<Rigidbody>().useGravity = true;
+        this.gameObject.GetComponent <Rigidbody>().isKinematic = false;
     }
 }

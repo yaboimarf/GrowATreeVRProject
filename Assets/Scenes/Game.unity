@@ -588,9 +588,17 @@ PrefabInstance:
       value: TreeTestObject
       objectReference: {fileID: 0}
     - target: {fileID: 6165007225105514674, guid: 4795cac1168f77c42b0796509478f017, type: 3}
+      propertyPath: water
+      value: 
+      objectReference: {fileID: 87979552}
+    - target: {fileID: 6165007225105514674, guid: 4795cac1168f77c42b0796509478f017, type: 3}
       propertyPath: smallTest
       value: 
       objectReference: {fileID: 87979552}
+    - target: {fileID: 6165007225105514674, guid: 4795cac1168f77c42b0796509478f017, type: 3}
+      propertyPath: wateringTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6165007225105514674, guid: 4795cac1168f77c42b0796509478f017, type: 3}
       propertyPath: waterNeedInterval
       value: 1
@@ -776,7 +784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5389049145538643266, guid: 2a46572e5f6d5c244b2c914398050542, type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5521680156961623645, guid: 2a46572e5f6d5c244b2c914398050542, type: 3}
       propertyPath: m_Name
