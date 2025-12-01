@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class TreeMiniGame : MonoBehaviour
 {
+    public SmallTest smallTest;
+
     [Header("Water Timers")]
     public float waterNeedInterval;
     private float waterTimer;
@@ -15,6 +17,7 @@ public class TreeMiniGame : MonoBehaviour
     [Header("Water bools")]
     public bool waterNeed;
     public bool waterMiniGameCompleted;
+    public bool isBeingWatered;
     
     [Header("Manure Timers")]
     public float manureNeedInterval;
@@ -41,6 +44,7 @@ public class TreeMiniGame : MonoBehaviour
     }
     private void Update()
     {
+        
         if(waterNeed == true)
         {
             waterTimer -= Time.deltaTime;
@@ -57,6 +61,11 @@ public class TreeMiniGame : MonoBehaviour
         {
             waterTimer = waterNeedInterval;
             return;
+        }
+
+        if(isBeingWatered == true)
+        {
+            WateringCompletion();
         }
 
         //if(manureNeed == true)
@@ -87,6 +96,8 @@ public class TreeMiniGame : MonoBehaviour
                 waterTimer = waterNeedInterval;
                 wateringTimer = wateringTime;
                 waterCompletionTimer = waterCompletionTime;
+                isBeingWatered = false;
+                smallTest.waterIsActive = false;
                 //subtract points
                 Debug.Log("-points");
             }
@@ -99,16 +110,31 @@ public class TreeMiniGame : MonoBehaviour
             wateringTimer = wateringTime;
             waterCompletionTimer = waterCompletionTime;
             waterMiniGameCompleted = false;
+            isBeingWatered = false;
+            smallTest.waterIsActive = false;
             //add points
             Debug.Log("+points");
         }
     }
     public void IsBeingWatered()
     {
-        wateringTimer -= Time.deltaTime;
-        if(wateringTimer <= 0)
+        //wateringTimer -= Time.deltaTime;
+        //if(wateringTimer <= 0)
+        //{
+        //    waterMiniGameCompleted = true;
+        //}
+        isBeingWatered = true;
+    }
+
+    private void WateringCompletion()
+    {
+        if(isBeingWatered == true)
         {
-            waterMiniGameCompleted = true;
+            wateringTimer -= Time.deltaTime;
+            if (wateringTimer <= 0)
+            {
+                waterMiniGameCompleted = true;                
+            }
         }
     }
     //private void ManureMiniGame()
@@ -150,4 +176,9 @@ public class TreeMiniGame : MonoBehaviour
     //        IsBeingWatered();
     //    }
     //}
+
+    public void SmallTestLocation()
+    {
+        smallTest = gameObject.GetComponent<SmallTest>();
+    }
 }
