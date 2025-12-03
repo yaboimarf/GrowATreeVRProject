@@ -6,6 +6,7 @@ public class TreeMiniGame : MonoBehaviour
     [Header("Scripts")]
     public Water water;
     public Manure manure;
+    public VRPointsPlantWithBonusButton points;
 
     [Header("Water Timers")]
     public float waterNeedInterval;
@@ -19,7 +20,7 @@ public class TreeMiniGame : MonoBehaviour
     public bool waterNeed;
     public bool waterMiniGameCompleted;
     public bool isBeingWatered;
-    
+        
     [Header("Manure Timers")]
     public float manureNeedInterval;
     private float manureTimer;
@@ -38,6 +39,10 @@ public class TreeMiniGame : MonoBehaviour
     public GameObject wateringPoint;
     public GameObject manureIndicator;
     public GameObject manurePoint;
+
+    [Header("Points")]
+    public int waterPoints;
+    public int manurePoints;
 
     private void Start()
     {
@@ -119,7 +124,7 @@ public class TreeMiniGame : MonoBehaviour
                 waterCompletionTimer = waterCompletionTime;
                 isBeingWatered = false;
                 water.ResetGravity();
-                //subtract points
+                points.AddPoints(-waterPoints);
                 Debug.Log("-points water");
             }
         }
@@ -133,7 +138,7 @@ public class TreeMiniGame : MonoBehaviour
             waterMiniGameCompleted = false;
             isBeingWatered = false;
             water.ResetGravity();
-            //add points
+            points.AddPoints(waterPoints);
             Debug.Log("+points water");
         }
     }
@@ -171,7 +176,7 @@ public class TreeMiniGame : MonoBehaviour
                 manureCompletionTimer = manureCompletionTime;
                 isbeingManured = false;
                 manure.ResetGravity();
-                //subtract points
+                points.AddPoints(-manurePoints);
                 Debug.Log("-points manure");
             }
         }
@@ -185,7 +190,7 @@ public class TreeMiniGame : MonoBehaviour
             manureMiniGameCompleted = false;
             isbeingManured = false;
             manure.ResetGravity();
-            //add points
+            points.AddPoints(manurePoints);
             Debug.Log("+points manure");
         }
     }
