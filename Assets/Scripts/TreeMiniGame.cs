@@ -43,6 +43,7 @@ public class TreeMiniGame : MonoBehaviour
     [Header("Points")]
     public int waterPoints;
     public int manurePoints;
+    public int trashPoints;
 
     private void Start()
     {
@@ -208,5 +209,12 @@ public class TreeMiniGame : MonoBehaviour
                 manureMiniGameCompleted = true;
             }
         }
+    }
+
+    //trash deletion points addon
+    public void TrashPoints()
+    {
+        points.totalPoints += trashPoints;
+        Debug.Log("Trash points");
     }
 }

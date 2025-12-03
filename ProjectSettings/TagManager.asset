@@ -12,6 +12,7 @@ TagManager:
   - Flame
   - Trail
   - WateringCan
+  - Trash
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Manure
   - Water
   - UI
-  - 
+  - Trash
   - 
   - Hats
   - Raycast
