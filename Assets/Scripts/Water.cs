@@ -1,7 +1,6 @@
-using System.Xml.Serialization;
 using UnityEngine;
 
-public class SmallTest : MonoBehaviour
+public class Water : MonoBehaviour
 {
     public TreeMiniGame treeMiniGame;
     private void OnCollisionStay(Collision collision)
@@ -15,6 +14,6 @@ public class SmallTest : MonoBehaviour
     public void ResetGravity()
     {
         this.gameObject.GetComponent<Rigidbody>().useGravity = true;
-        this.gameObject.GetComponent <Rigidbody>().isKinematic = false;
+        this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
     }
 }
