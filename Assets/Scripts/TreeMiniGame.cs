@@ -124,7 +124,7 @@ public class TreeMiniGame : MonoBehaviour
                 waterCompletionTimer = waterCompletionTime;
                 isBeingWatered = false;
                 water.ResetGravity();
-                points.totalPoints -= waterPoints;
+                points.AddPoints(-waterPoints);
                 Debug.Log("-points water");
             }
         }
@@ -138,7 +138,7 @@ public class TreeMiniGame : MonoBehaviour
             waterMiniGameCompleted = false;
             isBeingWatered = false;
             water.ResetGravity();
-            points.totalPoints += waterPoints;
+            points.AddPoints(waterPoints);
             Debug.Log("+points water");
         }
     }
@@ -176,7 +176,7 @@ public class TreeMiniGame : MonoBehaviour
                 manureCompletionTimer = manureCompletionTime;
                 isbeingManured = false;
                 manure.ResetGravity();
-                points.totalPoints -= manurePoints;
+                points.AddPoints(-manurePoints);
                 Debug.Log("-points manure");
             }
         }
@@ -190,7 +190,7 @@ public class TreeMiniGame : MonoBehaviour
             manureMiniGameCompleted = false;
             isbeingManured = false;
             manure.ResetGravity();
-            points.totalPoints += manurePoints;
+            points.AddPoints(manurePoints);
             Debug.Log("+points manure");
         }
     }
