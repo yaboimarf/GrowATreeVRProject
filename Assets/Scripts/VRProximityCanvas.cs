@@ -53,7 +53,7 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     public int fertilizerPoints = 3;
     public int fertilizerPenalty = 3;
 
-    private int totalPoints = 1;
+    public int totalPoints = 1;
     private bool bonusActive = false;
     private bool fertilizerActive = false;
 
