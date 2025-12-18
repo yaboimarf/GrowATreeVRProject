@@ -4,143 +4,120 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
-    [Header("References")]
-    public Transform player; // automatisch ingesteld in Awake
     private NavMeshAgent agent;
 
-    [Header("Settings")]
-    public float detectionRange = 15f;
-    public float attackRange = 2f;
-    public float patrolRadius = 10f; // radius voor rondbewegen
-    public float patrolWaitTime = 3f; // tijd bij patrol point
-    public float chaseSpeed = 4f;
-    public float patrolSpeed = 2f;
-    public float returnDelay = 2f; // tijd wachten voordat terug naar patrol
+    [Header("Path Settings")]
+    public string waypointTag = "WayPoint"; // tag van alle waypoints in park
+    public float waypointReachDistance = 0.5f;
+    public float moveSpeed = 2f;
+    public float waitTimeAtWaypoint = 1.5f;
 
-    private Vector3 spawnPoint;
-    private Vector3 patrolTarget;
-    private bool playerDetected = false;
-    private float patrolTimer = 0f;
-    private float returnTimer = 0f;
+    private Waypoint[] allWaypoints;
+    private Waypoint currentWaypoint;
+    private float waitTimer;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-
         agent.updateRotation = true;
         agent.angularSpeed = 720f;
         agent.acceleration = 8f;
-
-        // Vind automatisch de speler
-        GameObject p = GameObject.FindGameObjectWithTag("MainCamera");
-        if (p != null)
-            player = p.transform;
-        else
-            Debug.LogWarning("Player object met tag 'Player' niet gevonden!");
     }
 
     private void Start()
     {
-        spawnPoint = transform.position;
-        patrolTarget = spawnPoint;
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
+        // Zoek alle waypoints via tag
+        GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag(waypointTag);
+        allWaypoints = new Waypoint[waypointObjects.Length];
+        for (int i = 0; i < waypointObjects.Length; i++)
         {
-            rb.isKinematic = true;
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            allWaypoints[i] = waypointObjects[i].GetComponent<Waypoint>();
         }
+
+        // Kies dichtstbijzijnde waypoint van spawn
+        currentWaypoint = GetClosestWaypoint();
+        agent.speed = moveSpeed;
+
+        if (currentWaypoint != null)
+            agent.SetDestination(currentWaypoint.transform.position);
     }
 
     private void Update()
     {
-        if (player == null || !agent.isOnNavMesh) return;
+        if (!agent.isOnNavMesh || currentWaypoint == null) return;
 
-        float distance = Vector3.Distance(transform.position, player.position);
+        float distance = Vector3.Distance(transform.position, currentWaypoint.transform.position);
 
-        // Detecteer speler
-        if (distance <= detectionRange)
+        if (distance <= waypointReachDistance)
         {
-            playerDetected = true;
-            returnTimer = 0f; // reset return timer
-        }
-        else if (playerDetected)
-        {
-            returnTimer += Time.deltaTime;
-            if (returnTimer >= returnDelay)
-                playerDetected = false; // pas na delay terug naar patrol
-        }
-
-        // Gedrag AI
-        if (playerDetected)
-            HandleChase(distance);
-        else
-            HandlePatrol();
-    }
-
-    private void HandleChase(float distance)
-    {
-        if (!agent.isOnNavMesh) return;
-
-        if (distance > attackRange)
-        {
-            agent.isStopped = false;
-            agent.speed = chaseSpeed;
-            agent.SetDestination(player.position);
-        }
-        else
-        {
+            waitTimer += Time.deltaTime;
             agent.isStopped = true;
-            // Animaties of damage hier toevoegen
-            Debug.Log("Enemy valt speler aan!");
-        }
-    }
 
-    private void HandlePatrol()
-    {
-        if (!agent.isOnNavMesh) return;
-
-        float distToTarget = Vector3.Distance(transform.position, patrolTarget);
-
-        if (distToTarget < 0.5f)
-        {
-            // Wacht bij patrol point
-            patrolTimer += Time.deltaTime;
-            agent.isStopped = true;
-            agent.SetDestination(transform.position);
-
-            if (patrolTimer >= patrolWaitTime)
+            if (waitTimer >= waitTimeAtWaypoint)
             {
-                // Kies nieuw random patrol point
-                patrolTarget = GetRandomPatrolPoint();
-                agent.isStopped = false;
-                agent.speed = patrolSpeed;
-                agent.SetDestination(patrolTarget);
-                patrolTimer = 0f;
+                ChooseNextWaypoint();
+                waitTimer = 0f;
             }
         }
         else
         {
-            // Beweeg naar patrolTarget
             agent.isStopped = false;
-            agent.speed = patrolSpeed;
-            agent.SetDestination(patrolTarget);
+            agent.SetDestination(currentWaypoint.transform.position);
         }
     }
 
-    private Vector3 GetRandomPatrolPoint()
+    private void ChooseNextWaypoint()
     {
-        Vector3 randomPos = spawnPoint + Random.insideUnitSphere * patrolRadius;
-        randomPos.y = spawnPoint.y;
-
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomPos, out hit, 2f, NavMesh.AllAreas))
+        if (currentWaypoint.HasNext)
         {
-            return hit.position;
+            currentWaypoint = GetClosestNextWaypoint(currentWaypoint.nextWaypoints);
+            agent.SetDestination(currentWaypoint.transform.position);
         }
         else
         {
-            return spawnPoint;
+            // Eind van pad
+            agent.isStopped = true;
         }
+    }
+
+    // Kies de dichtstbijzijnde waypoint uit een lijst van opties
+    private Waypoint GetClosestNextWaypoint(Waypoint[] options)
+    {
+        if (options == null || options.Length == 0) return null;
+
+        Waypoint closest = options[0];
+        float minDist = Vector3.Distance(transform.position, closest.transform.position);
+
+        foreach (var wp in options)
+        {
+            float dist = Vector3.Distance(transform.position, wp.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                closest = wp;
+            }
+        }
+
+        return closest;
+    }
+
+    private Waypoint GetClosestWaypoint()
+    {
+        if (allWaypoints == null || allWaypoints.Length == 0) return null;
+
+        Waypoint closest = allWaypoints[0];
+        float minDist = Vector3.Distance(transform.position, closest.transform.position);
+
+        foreach (var wp in allWaypoints)
+        {
+            float dist = Vector3.Distance(transform.position, wp.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                closest = wp;
+            }
+        }
+
+        return closest;
     }
 }
