@@ -1,18 +1,27 @@
 using UnityEngine;
 
-[System.Serializable]
 public class Waypoint : MonoBehaviour
 {
-    [Header("Waypoint Settings")]
-    public Waypoint[] nextWaypoints; // alle mogelijke volgende waypoints
+    [Header("Next Waypoints")]
+    public Waypoint[] nextWaypoints;
 
-    // Hulpfunctie: check of waypoint een afslag heeft
+    // Check of er volgende waypoints zijn
     public bool HasNext => nextWaypoints != null && nextWaypoints.Length > 0;
 
-    // Kies willekeurig een volgende waypoint
+    // Kies random volgende waypoint
     public Waypoint GetRandomNextWaypoint()
     {
         if (!HasNext) return null;
         return nextWaypoints[Random.Range(0, nextWaypoints.Length)];
+    }
+
+    // Wanneer een NPC de waypoint raakt
+    private void OnTriggerEnter(Collider other)
+    {
+        EnemyAI ai = other.GetComponent<EnemyAI>();
+        if (ai != null)
+        {
+            ai.SetCurrentWaypoint(this);
+        }
     }
 }

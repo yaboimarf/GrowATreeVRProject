@@ -6,118 +6,63 @@ public class EnemyAI : MonoBehaviour
 {
     private NavMeshAgent agent;
 
-    [Header("Path Settings")]
-    public string waypointTag = "WayPoint"; // tag van alle waypoints in park
-    public float waypointReachDistance = 0.5f;
+    [Header("Movement Settings")]
     public float moveSpeed = 2f;
-    public float waitTimeAtWaypoint = 1.5f;
+    public float waitTimeAtWaypoint = 0.5f; // optioneel: kleine pauze bij waypoint
 
-    private Waypoint[] allWaypoints;
+    [Header("Spawn Waypoint")]
+    public Waypoint spawnWaypoint;
+
     private Waypoint currentWaypoint;
-    private float waitTimer;
+    private bool waiting;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = true;
-        agent.angularSpeed = 720f;
-        agent.acceleration = 8f;
+        agent.speed = moveSpeed;
     }
 
     private void Start()
     {
-        // Zoek alle waypoints via tag
-        GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag(waypointTag);
-        allWaypoints = new Waypoint[waypointObjects.Length];
-        for (int i = 0; i < waypointObjects.Length; i++)
+        if (spawnWaypoint != null && spawnWaypoint.HasNext)
         {
-            allWaypoints[i] = waypointObjects[i].GetComponent<Waypoint>();
-        }
-
-        // Kies dichtstbijzijnde waypoint van spawn
-        currentWaypoint = GetClosestWaypoint();
-        agent.speed = moveSpeed;
-
-        if (currentWaypoint != null)
+            // Start direct naar de eerste next waypoint van spawn
+            currentWaypoint = spawnWaypoint.GetRandomNextWaypoint();
             agent.SetDestination(currentWaypoint.transform.position);
+        }
     }
 
     private void Update()
     {
-        if (!agent.isOnNavMesh || currentWaypoint == null) return;
-
-        float distance = Vector3.Distance(transform.position, currentWaypoint.transform.position);
-
-        if (distance <= waypointReachDistance)
+        if (currentWaypoint != null && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            waitTimer += Time.deltaTime;
-            agent.isStopped = true;
-
-            if (waitTimer >= waitTimeAtWaypoint)
+            if (!waiting)
             {
-                ChooseNextWaypoint();
-                waitTimer = 0f;
+                waiting = true;
+                Invoke(nameof(MoveToNextWaypoint), waitTimeAtWaypoint);
             }
-        }
-        else
-        {
-            agent.isStopped = false;
-            agent.SetDestination(currentWaypoint.transform.position);
         }
     }
 
-    private void ChooseNextWaypoint()
+    // Wordt aangeroepen door Waypoint trigger of na waitTime
+    public void SetCurrentWaypoint(Waypoint waypoint)
     {
-        if (currentWaypoint.HasNext)
-        {
-            currentWaypoint = GetClosestNextWaypoint(currentWaypoint.nextWaypoints);
-            agent.SetDestination(currentWaypoint.transform.position);
-        }
-        else
-        {
-            // Eind van pad
-            agent.isStopped = true;
-        }
+        currentWaypoint = waypoint;
+        MoveToNextWaypoint();
     }
 
-    // Kies de dichtstbijzijnde waypoint uit een lijst van opties
-    private Waypoint GetClosestNextWaypoint(Waypoint[] options)
+    private void MoveToNextWaypoint()
     {
-        if (options == null || options.Length == 0) return null;
+        waiting = false;
 
-        Waypoint closest = options[0];
-        float minDist = Vector3.Distance(transform.position, closest.transform.position);
-
-        foreach (var wp in options)
+        if (currentWaypoint != null && currentWaypoint.HasNext)
         {
-            float dist = Vector3.Distance(transform.position, wp.transform.position);
-            if (dist < minDist)
+            Waypoint next = currentWaypoint.GetRandomNextWaypoint();
+            if (next != null)
             {
-                minDist = dist;
-                closest = wp;
+                currentWaypoint = next;
+                agent.SetDestination(currentWaypoint.transform.position);
             }
         }
-
-        return closest;
-    }
-
-    private Waypoint GetClosestWaypoint()
-    {
-        if (allWaypoints == null || allWaypoints.Length == 0) return null;
-
-        Waypoint closest = allWaypoints[0];
-        float minDist = Vector3.Distance(transform.position, closest.transform.position);
-
-        foreach (var wp in allWaypoints)
-        {
-            float dist = Vector3.Distance(transform.position, wp.transform.position);
-            if (dist < minDist)
-            {
-                minDist = dist;
-                closest = wp;
-            }
-        }
-
-        return closest;
     }
 }
