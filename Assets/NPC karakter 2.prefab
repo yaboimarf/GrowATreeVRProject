@@ -85,12 +85,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b90b1aff74e2ef42983ea96bd6ad27b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2207418664326693157}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b90b1aff74e2ef42983ea96bd6ad27b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1197258262327370941}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b90b1aff74e2ef42983ea96bd6ad27b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8993235222211035158}
   m_SourcePrefab: {fileID: 100100000, guid: 2b90b1aff74e2ef42983ea96bd6ad27b, type: 3}
 --- !u!1 &2006511479254566727 stripped
 GameObject:
@@ -153,61 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d83787f457b0bb45a3637b957e88e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  player: {fileID: 0}
-  detectionRange: 15
-  attackRange: 2
-  patrolRadius: 10
-  patrolWaitTime: 3
-  chaseSpeed: 4
-  patrolSpeed: 2
-  returnDelay: 2
---- !u!136 &1197258262327370941
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006511479254566727}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.17
-  m_Height: 7.9
-  m_Direction: 1
-  m_Center: {x: 0, y: 3.46, z: 0}
---- !u!54 &8993235222211035158
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006511479254566727}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  moveSpeed: 2
+  waitTimeAtWaypoint: 0.5
+  spawnWaypoint: {fileID: 0}
