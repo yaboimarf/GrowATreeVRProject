@@ -162,10 +162,16 @@ PrefabInstance:
       addedObject: {fileID: 1879516528057460777}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: feab707c5ff788544ab5f244757f4f8e, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 7451003951187447130}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: feab707c5ff788544ab5f244757f4f8e, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 7185953538569848981}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: feab707c5ff788544ab5f244757f4f8e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8868818525860997328}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: feab707c5ff788544ab5f244757f4f8e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1198652005840369942}
     - targetCorrespondingSourceObject: {fileID: 3551255863337285566, guid: feab707c5ff788544ab5f244757f4f8e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 142605330964663884}
@@ -224,6 +230,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!136 &7451003951187447130
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252650519017972123}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.92
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!195 &7185953538569848981
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -258,9 +287,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d83787f457b0bb45a3637b957e88e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  allWaypoints:
+  - {fileID: 0}
+  waypointReachDistance: 0.5
   moveSpeed: 2
   waitTimeAtWaypoint: 1.5
-  spawnWaypoint: {fileID: 0}
+--- !u!54 &-1198652005840369942
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252650519017972123}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &8065181208951012129 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: feab707c5ff788544ab5f244757f4f8e, type: 3}
