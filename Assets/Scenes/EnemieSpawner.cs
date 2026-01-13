@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject[] enemyPrefabs;
 
     [Header("Spawn Points")]
-    public Transform[] spawnPoints; // Spawnpoints in de scene
+    public Transform[] spawnPoints;
 
     [Header("Spawn Rate Per SpawnPoint")]
     public float minSpawnTime = 10f;
@@ -18,7 +18,8 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach (Transform spawnPoint in spawnPoints)
         {
-            StartCoroutine(SpawnLoop(spawnPoint));
+            if (spawnPoint != null)
+                StartCoroutine(SpawnLoop(spawnPoint));
         }
     }
 
@@ -38,31 +39,32 @@ public class EnemySpawner : MonoBehaviour
         if (enemyPrefabs.Length == 0 || spawnPoint == null)
             return;
 
+        Waypoint spawnWaypoint = spawnPoint.GetComponent<Waypoint>();
+        if (spawnWaypoint == null)
+        {
+            Debug.LogError($"SpawnPoint {spawnPoint.name} mist Waypoint component!");
+            return;
+        }
+
         GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
-        // Spawn op NavMesh
-        if (NavMesh.SamplePosition(spawnPoint.position, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+        // Zoek een geldige NavMesh positie
+        if (!NavMesh.SamplePosition(spawnPoint.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
         {
-            GameObject enemy = Instantiate(enemyPrefab, hit.position, spawnPoint.rotation);
+            Debug.LogError($"Geen NavMesh gevonden bij spawnpoint {spawnPoint.name}");
+            return;
+        }
 
-            // Koppel spawnWaypoint automatisch
-            Waypoint spawnWaypoint = spawnPoint.GetComponent<Waypoint>();
-            if (spawnWaypoint != null)
-            {
-                EnemyAI ai = enemy.GetComponent<EnemyAI>();
-                if (ai != null)
-                {
-                    ai.spawnWaypoint = spawnWaypoint;
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"SpawnPoint {spawnPoint.name} heeft geen Waypoint component!");
-            }
+        GameObject enemy = Instantiate(enemyPrefab, hit.position, spawnPoint.rotation);
+
+        EnemyAI ai = enemy.GetComponent<EnemyAI>();
+        if (ai != null)
+        {
+            ai.Initialize(spawnWaypoint); // Dit moet nu werken
         }
         else
         {
-            Debug.LogWarning($"Geen NavMesh gevonden bij spawnpoint: {spawnPoint.name}");
+            Debug.LogError("Enemy prefab mist EnemyAI script!");
         }
     }
 
@@ -75,9 +77,7 @@ public class EnemySpawner : MonoBehaviour
         foreach (Transform sp in spawnPoints)
         {
             if (sp != null)
-            {
                 Gizmos.DrawSphere(sp.position, 0.4f);
-            }
         }
     }
 #endif

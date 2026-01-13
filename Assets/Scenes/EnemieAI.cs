@@ -5,13 +5,8 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     private NavMeshAgent agent;
-
-    [Header("Movement Settings")]
     public float moveSpeed = 2f;
-    public float waitTimeAtWaypoint = 0.5f; // optioneel: kleine pauze bij waypoint
-
-    [Header("Spawn Waypoint")]
-    public Waypoint spawnWaypoint;
+    public float waitTimeAtWaypoint = 0.5f;
 
     private Waypoint currentWaypoint;
     private bool waiting;
@@ -22,47 +17,39 @@ public class EnemyAI : MonoBehaviour
         agent.speed = moveSpeed;
     }
 
-    private void Start()
+    public void Initialize(Waypoint spawnWaypoint)
     {
-        if (spawnWaypoint != null && spawnWaypoint.HasNext)
+        if (spawnWaypoint == null)
         {
-            // Start direct naar de eerste next waypoint van spawn
-            currentWaypoint = spawnWaypoint.GetRandomNextWaypoint();
-            agent.SetDestination(currentWaypoint.transform.position);
+            Debug.LogError($"{name} kreeg geen spawnWaypoint");
+            return;
         }
+
+        if (!spawnWaypoint.HasNext)
+        {
+            Debug.LogError($"{spawnWaypoint.name} heeft geen nextWaypoints");
+            return;
+        }
+
+        currentWaypoint = spawnWaypoint.GetRandomNextWaypoint();
+        agent.SetDestination(currentWaypoint.transform.position);
     }
 
     private void Update()
     {
-        if (currentWaypoint != null && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            if (!waiting)
-            {
-                waiting = true;
-                Invoke(nameof(MoveToNextWaypoint), waitTimeAtWaypoint);
-            }
-        }
+        // Nu hoeven we hier niks te checken voor remainingDistance
     }
 
-    // Wordt aangeroepen door Waypoint trigger of na waitTime
+    // Wordt aangeroepen door Waypoint trigger
     public void SetCurrentWaypoint(Waypoint waypoint)
     {
-        currentWaypoint = waypoint;
-        MoveToNextWaypoint();
-    }
+        if (waypoint == null)
+            return;
 
-    private void MoveToNextWaypoint()
-    {
-        waiting = false;
-
-        if (currentWaypoint != null && currentWaypoint.HasNext)
+        currentWaypoint = waypoint.GetRandomNextWaypoint();
+        if (currentWaypoint != null)
         {
-            Waypoint next = currentWaypoint.GetRandomNextWaypoint();
-            if (next != null)
-            {
-                currentWaypoint = next;
-                agent.SetDestination(currentWaypoint.transform.position);
-            }
+            agent.SetDestination(currentWaypoint.transform.position);
         }
     }
 }

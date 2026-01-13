@@ -1,21 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Waypoint : MonoBehaviour
 {
-    [Header("Next Waypoints")]
     public Waypoint[] nextWaypoints;
 
-    // Check of er volgende waypoints zijn
     public bool HasNext => nextWaypoints != null && nextWaypoints.Length > 0;
 
-    // Kies random volgende waypoint
     public Waypoint GetRandomNextWaypoint()
     {
-        if (!HasNext) return null;
+        if (!HasNext)
+            return null;
+
         return nextWaypoints[Random.Range(0, nextWaypoints.Length)];
     }
 
-    // Wanneer een NPC de waypoint raakt
     private void OnTriggerEnter(Collider other)
     {
         EnemyAI ai = other.GetComponent<EnemyAI>();
@@ -24,4 +23,22 @@ public class Waypoint : MonoBehaviour
             ai.SetCurrentWaypoint(this);
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 0.25f);
+
+        if (HasNext)
+        {
+            Gizmos.color = Color.cyan;
+            foreach (Waypoint wp in nextWaypoints)
+            {
+                if (wp != null)
+                    Gizmos.DrawLine(transform.position, wp.transform.position);
+            }
+        }
+    }
+#endif
 }
