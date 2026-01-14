@@ -5673,15 +5673,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: de738837f4ebcdc4dab199810f400607, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: de738837f4ebcdc4dab199810f400607, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: de738837f4ebcdc4dab199810f400607, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: de738837f4ebcdc4dab199810f400607, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11855,15 +11855,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 06e65f50c5494bf4297b3d19f9826df3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 06e65f50c5494bf4297b3d19f9826df3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 06e65f50c5494bf4297b3d19f9826df3, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 06e65f50c5494bf4297b3d19f9826df3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15031,14 +15031,14 @@ MonoBehaviour:
   treeStage2: {fileID: 349925683}
   treeStage3: {fileID: 730907793}
   treeStage4: {fileID: 2025146236}
-  evolveAtStage1: 0.75
-  evolveAtStage2: 1.5
-  evolveAtStage3: 2.5
+  evolveAtStage1: 1.5
+  evolveAtStage2: 2
+  evolveAtStage3: 3
   growthPerPoint: 0.0001
-  maxScale: 5
+  maxScale: 3.5
   colorChangeStep: 0.01
-  startPoints: 50
-  totalPoints: 50
+  startPoints: 100
+  totalPoints: 100
 --- !u!4 &967593014
 Transform:
   m_ObjectHideFlags: 0
@@ -15047,8 +15047,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 967593011}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 108.93, y: 4, z: 65.18}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15057,9 +15057,7 @@ Transform:
   - {fileID: 349925684}
   - {fileID: 730907794}
   - {fileID: 2025146237}
-  - {fileID: 1323997527}
-  - {fileID: 1795894571}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2015112863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &967593015
 MonoBehaviour:
@@ -19343,12 +19341,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323997526}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 967593014}
+  m_Father: {fileID: 2015112863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1324017991 stripped
 Transform:
@@ -26210,13 +26208,13 @@ Transform:
   m_GameObject: {fileID: 1795894570}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.17, z: 0}
+  m_LocalPosition: {x: 0, y: 0.17000008, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1124917162}
   - {fileID: 1790231342}
-  m_Father: {fileID: 967593014}
+  m_Father: {fileID: 2015112863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1797013360
 PrefabInstance:
@@ -29442,6 +29440,40 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7667523643108582396, guid: fa04e2033c9afaf468d2ac64127fb2de, type: 3}
   m_PrefabInstance: {fileID: 2008078632}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2015112862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2015112863}
+  m_Layer: 0
+  m_Name: MaintreeObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2015112863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015112862}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 108.93, y: 4, z: 65.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1323997527}
+  - {fileID: 1795894571}
+  - {fileID: 967593014}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2025146235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29452,15 +29484,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f3d53ecad0d9b32409d153f93b27df5d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f3d53ecad0d9b32409d153f93b27df5d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f3d53ecad0d9b32409d153f93b27df5d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f3d53ecad0d9b32409d153f93b27df5d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31717,7 +31749,7 @@ SceneRoots:
   - {fileID: 506435425}
   - {fileID: 7231657199906960672}
   - {fileID: 3742775352150740130}
-  - {fileID: 967593014}
+  - {fileID: 2015112863}
   - {fileID: 1053683018}
   - {fileID: 1191728027}
   - {fileID: 1769137435}
