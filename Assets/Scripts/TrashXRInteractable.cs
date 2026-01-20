@@ -25,7 +25,7 @@ public class TrashXRInteractable : MonoBehaviour
     {
         if (pointsSystem != null)
         {
-            pointsSystem.AddPoints(1);
+            pointsSystem.AddPoints(5);
         }
 
         Destroy(gameObject);

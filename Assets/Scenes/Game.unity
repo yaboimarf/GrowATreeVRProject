@@ -4396,7 +4396,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: papieren propje (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -8461937548614623269, guid: 16c8f7038d99a624ca2153b664dc3ebb, type: 3}
+    - {fileID: -1975152116162683292, guid: 16c8f7038d99a624ca2153b664dc3ebb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11780,6 +11782,7 @@ GameObject:
   - component: {fileID: 967593012}
   - component: {fileID: 967593015}
   - component: {fileID: 967593016}
+  - component: {fileID: 967593017}
   m_Layer: 0
   m_Name: MainTree
   m_TagString: Untagged
@@ -11914,6 +11917,23 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 5.27
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &967593017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967593011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7456d2a143a5b3c478748d672dc015a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  beetlePrefabs:
+  - {fileID: 724379217608957586, guid: d3a1a200da404894db9c068d4dd3bde2, type: 3}
+  spawnRadius: 1
+  minSpawnTime: 30
+  maxSpawnTime: 60
 --- !u!1 &975469807
 GameObject:
   m_ObjectHideFlags: 0
@@ -14452,7 +14472,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stenen
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -8461937548614623269, guid: 16c8f7038d99a624ca2153b664dc3ebb, type: 3}
+    - {fileID: -1975152116162683292, guid: 16c8f7038d99a624ca2153b664dc3ebb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1467280256869969319, guid: 16c8f7038d99a624ca2153b664dc3ebb, type: 3}
@@ -22224,8 +22246,8 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1616404728}
   - {fileID: 1237292356}
-  minSpawnTime: 2
-  maxSpawnTime: 3
+  minSpawnTime: 20
+  maxSpawnTime: 50
 --- !u!4 &1941834663
 Transform:
   m_ObjectHideFlags: 0
@@ -23943,7 +23965,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: papieren propje (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -8461937548614623269, guid: 16c8f7038d99a624ca2153b664dc3ebb, type: 3}
+    - {fileID: -1975152116162683292, guid: 16c8f7038d99a624ca2153b664dc3ebb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
