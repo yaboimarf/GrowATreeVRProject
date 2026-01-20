@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2b90b1aff74e2ef42983ea96bd6ad27b, type: 3}
       propertyPath: m_Name
-      value: NPC karakter 2
+      value: NPC karakter 2 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2b90b1aff74e2ef42983ea96bd6ad27b, type: 3}
       propertyPath: m_IsActive
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   moveSpeed: 2
-  waitTimeAtWaypoint: 0.5
+  waitTimeAtWaypoint: 0
 --- !u!54 &8993235222211035158
 Rigidbody:
   m_ObjectHideFlags: 0
