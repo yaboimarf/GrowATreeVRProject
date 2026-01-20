@@ -11924,6 +11924,12 @@ MonoBehaviour:
   manureNeed: 1
   manureMiniGameCompleted: 0
   isbeingManured: 0
+  bugNeedInterval: 0
+  buggingTime: 0
+  bugCompletionTime: 0
+  bugNeed: 1
+  bugMiniGameCompleted: 0
+  isBeingbugged: 0
   waterIndicator: {fileID: 1124917161}
   wateringPoint: {fileID: 1124917161}
   manureIndicator: {fileID: 1790231341}
@@ -11931,6 +11937,7 @@ MonoBehaviour:
   waterPoints: 5
   manurePoints: 10
   trashPoints: 1
+  bugPoints: 0
 --- !u!1 &975469807
 GameObject:
   m_ObjectHideFlags: 0
@@ -24304,7 +24311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0cdb81ca80239c4a9f1916b214196cd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 64.51772
+      value: 68.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0cdb81ca80239c4a9f1916b214196cd, type: 3}
       propertyPath: m_LocalRotation.w

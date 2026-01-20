@@ -34,6 +34,19 @@ public class TreeMiniGame : MonoBehaviour
     public bool manureMiniGameCompleted;
     public bool isbeingManured;
 
+    [Header("Bug Timers")]
+    public float bugNeedInterval;
+    private float bugTimer;
+    private float buggingTimer;
+    public float buggingTime;
+    private float bugCompletionTimer;
+    public float bugCompletionTime;
+
+    [Header("Bug Bools")]
+    public bool bugNeed;
+    public bool bugMiniGameCompleted;
+    public bool isBeingbugged;
+
     [Header("GameObjects")]
     public GameObject waterIndicator;    
     public GameObject wateringPoint;
@@ -44,6 +57,7 @@ public class TreeMiniGame : MonoBehaviour
     public int waterPoints;
     public int manurePoints;
     public int trashPoints;
+    public int bugPoints;
 
     private void Start()
     {
@@ -56,6 +70,11 @@ public class TreeMiniGame : MonoBehaviour
         manureTimer = manureNeedInterval;
         manureCompletionTimer = manureCompletionTime;
         manuringTimer = manuringTime;
+
+        //bug setup
+        bugTimer = bugNeedInterval;
+        bugCompletionTimer = bugCompletionTime;
+        buggingTimer = buggingTime;
     }
     private void Update()
     {
@@ -105,6 +124,30 @@ public class TreeMiniGame : MonoBehaviour
         if(isbeingManured == true)
         {
             ManuringCompletion();
+        }
+
+        //bug trigger
+        if (bugNeed == true)
+        {
+            bugTimer -= Time.deltaTime;
+            if (bugTimer <= 0)
+            {
+                BugMiniGame();
+            }
+            else
+            {
+                buggingTimer = buggingTime;
+            }
+        }
+        else
+        {
+            bugTimer = bugNeedInterval;
+            return;
+        }
+
+        if (isBeingbugged == true)
+        {
+            buggingCompletion();
         }
     }
 
@@ -209,6 +252,20 @@ public class TreeMiniGame : MonoBehaviour
                 manureMiniGameCompleted = true;
             }
         }
+    }
+
+    //Bug minigame functionality
+    private void BugMiniGame()
+    {
+
+    }
+    public void IsBeingBugged()
+    {
+
+    }
+    private void buggingCompletion()
+    {
+
     }
 
     //trash deletion points addon
