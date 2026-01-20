@@ -2019,7 +2019,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 301992867}
-  - {fileID: 192328629}
   - {fileID: 1941834663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2358,54 +2357,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &192328627
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 192328629}
-  - component: {fileID: 192328628}
-  m_Layer: 0
-  m_Name: TrashSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &192328628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 192328627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4d6426c7e847854e90789497b949d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  trashPrefab: {fileID: 7515112102428142041, guid: e82b4f713e865d94d9bea04390169cf4, type: 3}
-  target: {fileID: 1001321352}
-  spawnRadius: 2
-  spawnInterval: 1
---- !u!4 &192328629
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 192328627}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -88.510925, y: 0.008579969, z: -44.15647}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 177895632}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &193078930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11828,6 +11779,7 @@ GameObject:
   - component: {fileID: 967593013}
   - component: {fileID: 967593012}
   - component: {fileID: 967593015}
+  - component: {fileID: 967593016}
   m_Layer: 0
   m_Name: MainTree
   m_TagString: Untagged
@@ -11842,15 +11794,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 967593011}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4d6426c7e847854e90789497b949d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashSpawner
-  trashPrefab: {fileID: 2384534790404977610, guid: 76c73bff5b7737642a66fedd7046d31d, type: 3}
-  target: {fileID: 967593014}
-  spawnRadius: 2
-  spawnInterval: 10
+  trashPrefabs:
+  - {fileID: 8328450562444605415, guid: c9bc7f64c15670e4c8fe92698d9374a4, type: 3}
+  - {fileID: 7515112102428142041, guid: e82b4f713e865d94d9bea04390169cf4, type: 3}
+  - {fileID: 2240262853898401565, guid: 16c8f7038d99a624ca2153b664dc3ebb, type: 3}
+  spawnRadius: 1.25
+  npcTag: Enemy
+  triggerRadius: 5.46
 --- !u!114 &967593013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11887,7 +11842,7 @@ Transform:
   m_GameObject: {fileID: 967593011}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11938,6 +11893,27 @@ MonoBehaviour:
   manurePoints: 10
   trashPoints: 1
   bugPoints: 0
+--- !u!135 &967593016
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967593011}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5.27
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &975469807
 GameObject:
   m_ObjectHideFlags: 0

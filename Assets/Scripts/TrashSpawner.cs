@@ -1,38 +1,64 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SphereCollider))]
 public class TrashSpawner : MonoBehaviour
 {
-    [Header("Spawn Settings")]
-    public GameObject trashPrefab;          // De prefab die gespawned wordt
-    public Transform target;                // Object waar rondom gespawned wordt
-    public float spawnRadius = 5f;          // Hoe ver rondom het object
-    public float spawnInterval = 1f;        // Tijd tussen spawns
+    [Header("Trash Settings")]
+    public GameObject[] trashPrefabs;  // Meerdere trash prefabs
+    public float spawnRadius = 3f;     // Radius rondom de tree waar trash wordt gespawned
+    public string npcTag = "Enemy";    // Tag van NPCs
 
-    private float timer = 0f;
+    [Header("Trigger Settings")]
+    public float triggerRadius = 5f;   // Radius die NPCs detecteert
 
-    private void Update()
+    private SphereCollider triggerCollider;
+
+    private void Awake()
     {
-        if (trashPrefab == null || target == null) return;
-
-        timer += Time.deltaTime;
-
-        if (timer >= spawnInterval)
-        {
-            SpawnTrash();
-            timer = 0f;
-        }
+        // Zorg dat de collider aanwezig is en juiste trigger radius heeft
+        triggerCollider = GetComponent<SphereCollider>();
+        triggerCollider.isTrigger = true;
+        triggerCollider.radius = triggerRadius;
     }
 
-    void SpawnTrash()
+    private void OnTriggerEnter(Collider other)
     {
-        // willekeurige positie in een cirkel rond het target
+        // Alleen NPCs met de juiste tag triggeren
+        if (!other.CompareTag(npcTag))
+            return;
+
+        SpawnTrash();
+    }
+
+    private void SpawnTrash()
+    {
+        if (trashPrefabs == null || trashPrefabs.Length == 0)
+            return;
+
+        // Kies random prefab
+        GameObject prefab = trashPrefabs[Random.Range(0, trashPrefabs.Length)];
+
+        // Willekeurige positie in XZ vlak binnen spawnRadius
         Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
         Vector3 spawnPos = new Vector3(
-            target.position.x + randomPos.x,
-            target.position.y,
-            target.position.z + randomPos.y
+            transform.position.x + randomPos.x,  // X
+            transform.position.y,                // Y = tree hoogte
+            transform.position.z + randomPos.y   // Z
         );
 
-        Instantiate(trashPrefab, spawnPos, Quaternion.identity);
+        Instantiate(prefab, spawnPos, Quaternion.identity);
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        // Spawn radius (groen)
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, spawnRadius);
+
+        // Trigger radius (geel)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, triggerRadius);
+    }
+#endif
 }

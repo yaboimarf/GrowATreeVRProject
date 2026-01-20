@@ -19,6 +19,10 @@ public class EnemyAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
         agent.autoBraking = true;
+
+        // Zorg dat deze NPC de juiste tag heeft
+        if (gameObject.tag != "Enemy")
+            gameObject.tag = "Enemy";
     }
 
     /// <summary>
@@ -63,7 +67,6 @@ public class EnemyAI : MonoBehaviour
     {
         isWaiting = true;
 
-        // Optioneel wachten op waypoint
         if (waitTimeAtWaypoint > 0f)
             yield return new WaitForSeconds(waitTimeAtWaypoint);
 
@@ -83,7 +86,6 @@ public class EnemyAI : MonoBehaviour
 
     private void Despawn()
     {
-        // Hier kun je later animatie, pooling, effects toevoegen
         Destroy(gameObject);
     }
 
