@@ -29,7 +29,7 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     public float evolveAtStage3 = 2f;
 
     private int currentStage = 1;
-    private bool isDead = false;
+    [HideInInspector] public bool isDead = false;
 
     [Header("Growth Settings")]
     public float growthPerPoint = 0.05f;
@@ -43,6 +43,10 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     public int totalPoints;
 
     private Material plantMaterial;
+
+    // Reference naar GameTimerWinLose om lose screen te triggeren
+    [Header("References")]
+    public GameTimerWinLose gameTimerScript;
 
     private void Start()
     {
@@ -59,20 +63,23 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         StartCoroutine(PlantColorCoroutine());
     }
 
-    // ------------------------------
-    // TREE EVOLUTION VIA SETACTIVE
-    // ------------------------------
     private void CheckEvolution()
     {
-        // Controleer eerst of de boom dood moet zijn
+        // Controleer dood
         if (!isDead && totalPoints < 40 && plantMaterial.color == Color.black)
         {
             SwitchToDeadStage(currentStage);
             isDead = true;
+
+            // Start coroutine om 10 seconden te wachten en loseScreen te tonen
+            if (gameTimerScript != null)
+            {
+                StartCoroutine(gameTimerScript.TriggerLoseAfterDelay(10f));
+            }
             return;
         }
 
-        if (isDead) return; // dood blijft dood
+        if (isDead) return;
 
         float scaleX = plantTransform.localScale.x;
 
@@ -86,14 +93,12 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
 
     private void SwitchToStage(int newStage)
     {
-        // Huidige kleur onthouden
         Color currentColor = Color.white;
         if (plantMaterial != null)
             currentColor = plantMaterial.color;
 
         currentStage = newStage;
 
-        // Zet alle stages uit
         treeStage1.SetActive(false);
         treeStage2.SetActive(false);
         treeStage3.SetActive(false);
@@ -103,20 +108,16 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         treeDeadStage3.SetActive(false);
         treeDeadStage4.SetActive(false);
 
-        // Zet de juiste stage aan
         if (newStage == 1) treeStage1.SetActive(true);
         if (newStage == 2) treeStage2.SetActive(true);
         if (newStage == 3) treeStage3.SetActive(true);
         if (newStage == 4) treeStage4.SetActive(true);
 
-        // Nieuwe renderer voor kleur
         Renderer newRend = plantTransform.GetComponentInChildren<Renderer>();
         if (newRend != null)
         {
             plantRenderer = newRend;
             plantMaterial = newRend.material;
-
-            // Pas de kleur van de nieuwe stage aan naar de oude kleur
             plantMaterial.color = currentColor;
         }
     }
@@ -125,7 +126,6 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
     {
         currentStage = stage;
 
-        // Zet alle stages uit
         treeStage1.SetActive(false);
         treeStage2.SetActive(false);
         treeStage3.SetActive(false);
@@ -135,27 +135,20 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         treeDeadStage3.SetActive(false);
         treeDeadStage4.SetActive(false);
 
-        // Zet de juiste dead stage aan
         if (stage == 1) treeDeadStage1.SetActive(true);
         if (stage == 2) treeDeadStage2.SetActive(true);
         if (stage == 3) treeDeadStage3.SetActive(true);
         if (stage == 4) treeDeadStage4.SetActive(true);
 
-        // Nieuwe renderer voor kleur
         Renderer newRend = plantTransform.GetComponentInChildren<Renderer>();
         if (newRend != null)
         {
             plantRenderer = newRend;
             plantMaterial = newRend.material;
-
-            // Dode boom is altijd zwart
             plantMaterial.color = Color.black;
         }
     }
 
-    // ------------------------------
-    // PLANT GROEI
-    // ------------------------------
     private IEnumerator GrowPlantCoroutine()
     {
         while (true)
@@ -174,7 +167,6 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             }
             else
             {
-                // blijf CheckEvolution wel uitvoeren zodat boom dood kan gaan
                 CheckEvolution();
             }
         }
@@ -188,10 +180,9 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            if (isDead) continue; // dood blijft zwart
+            if (isDead) continue;
 
             Color targetColor = GetTargetColor();
-
             plantMaterial.color = Color.Lerp(
                 plantMaterial.color,
                 targetColor,
@@ -210,9 +201,6 @@ public class VRPointsPlantWithBonusButton : MonoBehaviour
             return Color.black;
     }
 
-    // ------------------------------
-    // UI UPDATE EN PUNTEN TOEVOEGEN
-    // ------------------------------
     private void UpdatePointsUI()
     {
         if (pointsText != null)

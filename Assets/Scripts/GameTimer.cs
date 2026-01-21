@@ -6,7 +6,7 @@ using System.Collections;
 public class GameTimerWinLose : MonoBehaviour
 {
     [Header("Timer Settings")]
-    public float totalTime = 300f; // 5 minuten
+    public float totalTime = 300f;
     public TMP_Text timerText;
 
     [Header("Win Conditions")]
@@ -16,16 +16,13 @@ public class GameTimerWinLose : MonoBehaviour
     [Header("UI Screens (GameScene)")]
     public GameObject winScreen;
     public GameObject loseScreen;
-    public GameObject backButton; // 🔙 BACK BUTTON
+    public GameObject backButton;
 
     [Header("Scene Names")]
-    public string winSceneName = "WinScene";
-    public string loseSceneName = "LoseScene";
     public string mainMenuSceneName = "MainMenu";
 
     [Header("Scene Load Settings")]
-    public bool autoLoadScene = false; // UIT laten als je eerst Back wilt klikken
-    public float delayBeforeSceneLoad = 3f;
+    public float delayBeforeMainMenu = 10f;
 
     [Header("References")]
     public VRPointsPlantWithBonusButton plantScript;
@@ -37,7 +34,6 @@ public class GameTimerWinLose : MonoBehaviour
     {
         currentTime = totalTime;
 
-        // Alles UIT bij start
         if (winScreen != null) winScreen.SetActive(false);
         if (loseScreen != null) loseScreen.SetActive(false);
         if (backButton != null) backButton.SetActive(false);
@@ -46,17 +42,19 @@ public class GameTimerWinLose : MonoBehaviour
         {
             Debug.LogError("❌ PlantScript reference ontbreekt!");
         }
+        else
+        {
+            plantScript.gameTimerScript = this;
+        }
     }
 
     private void Update()
     {
         if (gameEnded) return;
 
-        // Timer aftellen
         currentTime -= Time.deltaTime;
         if (currentTime < 0f) currentTime = 0f;
 
-        // Timer UI
         if (timerText != null)
         {
             int minutes = Mathf.FloorToInt(currentTime / 60f);
@@ -64,7 +62,6 @@ public class GameTimerWinLose : MonoBehaviour
             timerText.text = $"{minutes:00}:{seconds:00}";
         }
 
-        // Timer afgelopen
         if (currentTime <= 0f)
         {
             EndGame();
@@ -87,39 +84,47 @@ public class GameTimerWinLose : MonoBehaviour
         bool hasEnoughPoints = points >= puntenThreshold;
         bool treeIsBigEnough = boomHeight >= boomScaleThreshold;
 
-        // Back button altijd tonen bij einde
         if (backButton != null)
             backButton.SetActive(true);
 
         if (hasEnoughPoints && treeIsBigEnough)
         {
-            // ✅ WIN
             if (winScreen != null) winScreen.SetActive(true);
             if (loseScreen != null) loseScreen.SetActive(false);
-
-            if (autoLoadScene)
-                StartCoroutine(LoadSceneAfterDelay(winSceneName));
         }
         else
         {
-            // ❌ LOSE
             if (loseScreen != null) loseScreen.SetActive(true);
             if (winScreen != null) winScreen.SetActive(false);
-
-            if (autoLoadScene)
-                StartCoroutine(LoadSceneAfterDelay(loseSceneName));
         }
+
+        StartCoroutine(GoToMainMenuAfterDelay());
     }
 
-    // 🔙 Wordt aangeroepen door Button OnClick()
     public void GoBackToMainMenu()
     {
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
-    private IEnumerator LoadSceneAfterDelay(string sceneName)
+    private IEnumerator GoToMainMenuAfterDelay()
     {
-        yield return new WaitForSeconds(delayBeforeSceneLoad);
-        SceneManager.LoadScene(sceneName);
+        yield return new WaitForSeconds(delayBeforeMainMenu);
+        SceneManager.LoadScene(mainMenuSceneName);
+    }
+
+    // Nieuw: trigger lose screen na dood boom
+    public IEnumerator TriggerLoseAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        gameEnded = true;
+
+        if (backButton != null)
+            backButton.SetActive(true);
+
+        if (loseScreen != null) loseScreen.SetActive(true);
+        if (winScreen != null) winScreen.SetActive(false);
+
+        StartCoroutine(GoToMainMenuAfterDelay());
     }
 }
