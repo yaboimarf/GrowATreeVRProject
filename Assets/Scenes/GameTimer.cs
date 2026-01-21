@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
@@ -7,19 +7,28 @@ public class GameTimerWinLose : MonoBehaviour
 {
     [Header("Timer Settings")]
     public float totalTime = 300f; // 5 minuten
-    public TMP_Text timerText;     // Timer UI (TextMeshPro)
+    public TMP_Text timerText;
 
-    [Header("Win/Lose Settings")]
-    public int puntenThreshold = 70;          // Minimale punten voor winst
-    public float boomScaleThreshold = 3.5f;   // Minimale boomhoogte voor winst
-    public GameObject winScreen;              // Win screen UI
-    public GameObject loseScreen;             // Lose screen UI
-    public bool autoLoadScene = true;         // Wil je automatisch naar een scene gaan?
-    public float delayBeforeSceneLoad = 3f;   // Wacht 3 seconden voor scene switch
-    public string winLoseSceneName = "WinLose"; // Scene naam
+    [Header("Win Conditions")]
+    public int puntenThreshold = 70;
+    public float boomScaleThreshold = 3.5f;
+
+    [Header("UI Screens (GameScene)")]
+    public GameObject winScreen;
+    public GameObject loseScreen;
+    public GameObject backButton; // 🔙 BACK BUTTON
+
+    [Header("Scene Names")]
+    public string winSceneName = "WinScene";
+    public string loseSceneName = "LoseScene";
+    public string mainMenuSceneName = "MainMenu";
+
+    [Header("Scene Load Settings")]
+    public bool autoLoadScene = false; // UIT laten als je eerst Back wilt klikken
+    public float delayBeforeSceneLoad = 3f;
 
     [Header("References")]
-    public VRPointsPlantWithBonusButton plantScript; // Script met punten en boom info
+    public VRPointsPlantWithBonusButton plantScript;
 
     private float currentTime;
     private bool gameEnded = false;
@@ -28,13 +37,14 @@ public class GameTimerWinLose : MonoBehaviour
     {
         currentTime = totalTime;
 
-        // Zorg dat beide screens uitstaan
+        // Alles UIT bij start
         if (winScreen != null) winScreen.SetActive(false);
         if (loseScreen != null) loseScreen.SetActive(false);
+        if (backButton != null) backButton.SetActive(false);
 
         if (plantScript == null)
         {
-            Debug.LogWarning("PlantScript niet ingesteld! Win/Lose check zal niet correct werken.");
+            Debug.LogError("❌ PlantScript reference ontbreekt!");
         }
     }
 
@@ -46,15 +56,15 @@ public class GameTimerWinLose : MonoBehaviour
         currentTime -= Time.deltaTime;
         if (currentTime < 0f) currentTime = 0f;
 
-        // Update timer UI
+        // Timer UI
         if (timerText != null)
         {
             int minutes = Mathf.FloorToInt(currentTime / 60f);
             int seconds = Mathf.FloorToInt(currentTime % 60f);
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            timerText.text = $"{minutes:00}:{seconds:00}";
         }
 
-        // Timer afgelopen?
+        // Timer afgelopen
         if (currentTime <= 0f)
         {
             EndGame();
@@ -65,40 +75,51 @@ public class GameTimerWinLose : MonoBehaviour
     {
         gameEnded = true;
 
-        if (plantScript == null)
+        if (plantScript == null || plantScript.plantTransform == null)
         {
-            Debug.LogWarning("Geen plantScript ingesteld. Win/Lose check kan niet uitgevoerd worden!");
+            Debug.LogError("❌ Kan Win/Lose niet bepalen");
             return;
         }
 
-        // Huidige punten en boomhoogte
-        int currentPoints = plantScript.totalPoints;
-        float boomHeight = plantScript.plantTransform != null ? plantScript.plantTransform.localScale.y : 0f;
+        int points = plantScript.totalPoints;
+        float boomHeight = plantScript.plantTransform.localScale.y;
 
-        // Bepaal winst of verlies
-        bool win = currentPoints >= puntenThreshold && boomHeight > boomScaleThreshold;
+        bool hasEnoughPoints = points >= puntenThreshold;
+        bool treeIsBigEnough = boomHeight >= boomScaleThreshold;
 
-        if (win)
+        // Back button altijd tonen bij einde
+        if (backButton != null)
+            backButton.SetActive(true);
+
+        if (hasEnoughPoints && treeIsBigEnough)
         {
+            // ✅ WIN
             if (winScreen != null) winScreen.SetActive(true);
             if (loseScreen != null) loseScreen.SetActive(false);
+
+            if (autoLoadScene)
+                StartCoroutine(LoadSceneAfterDelay(winSceneName));
         }
         else
         {
+            // ❌ LOSE
             if (loseScreen != null) loseScreen.SetActive(true);
             if (winScreen != null) winScreen.SetActive(false);
-        }
 
-        // Optioneel automatische scene switch
-        if (autoLoadScene && !string.IsNullOrEmpty(winLoseSceneName))
-        {
-            StartCoroutine(LoadSceneAfterDelay(delayBeforeSceneLoad));
+            if (autoLoadScene)
+                StartCoroutine(LoadSceneAfterDelay(loseSceneName));
         }
     }
 
-    private IEnumerator LoadSceneAfterDelay(float delay)
+    // 🔙 Wordt aangeroepen door Button OnClick()
+    public void GoBackToMainMenu()
     {
-        yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene(winLoseSceneName);
+        SceneManager.LoadScene(mainMenuSceneName);
+    }
+
+    private IEnumerator LoadSceneAfterDelay(string sceneName)
+    {
+        yield return new WaitForSeconds(delayBeforeSceneLoad);
+        SceneManager.LoadScene(sceneName);
     }
 }
