@@ -15524,7 +15524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b096a57f4fc7c043a65829b0ba6dfab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  totalTime: 10
+  totalTime: 420
   timerText: {fileID: 816711297}
   puntenThreshold: 70
   boomScaleThreshold: 3.5
