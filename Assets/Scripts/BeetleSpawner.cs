@@ -1,7 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BeetleSpawner : MonoBehaviour
 {
+    [Header("Spawner Toggle")]
+    public bool spawnBeetles = true;   // 👈 AAN/UIT in Inspector
+
     [Header("Beetle Settings")]
     public GameObject[] beetlePrefabs;    // Meerdere kever prefabs
     public float spawnRadius = 3f;        // Radius rondom de spawner waar kevers verschijnen
@@ -17,6 +20,10 @@ public class BeetleSpawner : MonoBehaviour
 
     private void Update()
     {
+        // ❌ Als spawner uit staat → niks doen
+        if (!spawnBeetles)
+            return;
+
         if (beetlePrefabs == null || beetlePrefabs.Length == 0)
             return;
 
@@ -43,21 +50,19 @@ public class BeetleSpawner : MonoBehaviour
         Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
         Vector3 spawnPos = new Vector3(
             transform.position.x + randomPos.x,  // X
-            transform.position.y,                // Y = hoogte van de spawner
+            transform.position.y,                // Y
             transform.position.z + randomPos.y   // Z
         );
 
-        // Willekeurige rotatie rondom Y-as (0 tot 360 graden)
+        // Willekeurige rotatie rondom Y-as
         Quaternion randomRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
 
-        // Instantiate kever
         Instantiate(prefab, spawnPos, randomRotation);
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        // Spawn radius (groen)
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, spawnRadius);
     }
