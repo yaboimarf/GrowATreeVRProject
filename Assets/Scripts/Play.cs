@@ -1,23 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Play : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public void PlayGame()
+    // Sleep hier je play-object in
+    public GameObject playObject;
+
+    // Deze functie kan je direct koppelen aan XR Grab Interactable → On Select Enter
+    public void OnGrabbed()
+    {
+        PlayGame();
+    }
+
+    private void PlayGame()
     {
         SceneManager.LoadSceneAsync(1);
-    }
-
-    public void OpenSettings()
-    {
-        SceneManager.LoadSceneAsync(2);
-    }
-
-    public void CloseSettings()
-    {
-        SceneManager.LoadSceneAsync(0);
     }
 }
