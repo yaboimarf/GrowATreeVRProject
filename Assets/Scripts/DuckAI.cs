@@ -29,12 +29,25 @@ public class DuckAI : MonoBehaviour
     private enum State { Patrol, Chasing }
     private State currentState = State.Patrol;
 
+    // Nieuw: track of de eend wordt vastgehouden en of hij buiten de radius is
+    private bool isGrabbed = false;
+    private bool outsideRadiusWhenReleased = false;
+
+    private Rigidbody rb;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;  // we draaien handmatig
         agent.angularSpeed = 720f;
         agent.acceleration = 8f;
+
+        rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        }
     }
 
     public void SetPatrolCenterAndRadius(Vector3 center, float radius)
@@ -54,13 +67,6 @@ public class DuckAI : MonoBehaviour
         currentPatrolSpeed = Random.Range(minPatrolSpeed, maxPatrolSpeed);
         currentPatrolWaitTime = Random.Range(minPatrolWaitTime, maxPatrolWaitTime);
 
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        }
-
         agent.speed = currentPatrolSpeed;
         agent.SetDestination(patrolTarget);
     }
@@ -68,6 +74,9 @@ public class DuckAI : MonoBehaviour
     private void Update()
     {
         if (!agent.isOnNavMesh || player == null) return;
+
+        // Als eend wordt vastgehouden, niets laten doen in AI
+        if (isGrabbed) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         currentState = distanceToPlayer <= detectRadius ? State.Chasing : State.Patrol;
@@ -136,16 +145,15 @@ public class DuckAI : MonoBehaviour
 
     private void ApplySoftBoundary()
     {
-        // Bereken afstand tot center
+        // Alleen toepassen als eend vrij rondloopt
+        if (outsideRadiusWhenReleased) return;
+
         Vector3 fromCenter = transform.position - patrolCenter;
         float distance = fromCenter.magnitude;
 
         if (distance > patrolRadius)
         {
-            // Bereken richting terug naar center
             Vector3 pushDir = -fromCenter.normalized;
-
-            // Pas agent velocity tijdelijk aan om terug te duwen
             agent.velocity += pushDir * boundaryPushStrength * Time.deltaTime;
         }
     }
@@ -163,6 +171,37 @@ public class DuckAI : MonoBehaviour
             }
         }
         return patrolCenter;
+    }
+
+    // Nieuw: functies voor grab
+    public void OnGrabbed()
+    {
+        isGrabbed = true;
+        agent.isStopped = true;
+        rb.isKinematic = false; // zodat physics kan werken als hij valt
+        rb.constraints = RigidbodyConstraints.None; // laat volledige rotatie toe
+    }
+
+    public void OnReleased()
+    {
+        isGrabbed = false;
+
+        // Check of buiten radius
+        float distance = Vector3.Distance(transform.position, patrolCenter);
+        if (distance > patrolRadius)
+        {
+            outsideRadiusWhenReleased = true;
+            agent.enabled = false; // AI agent stoppen, laat fysica vallen
+        }
+        else
+        {
+            // Blijf terugkeren zoals normaal
+            outsideRadiusWhenReleased = false;
+            rb.isKinematic = true;
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            agent.enabled = true;
+            agent.SetDestination(GetRandomPatrolPoint());
+        }
     }
 
 #if UNITY_EDITOR
